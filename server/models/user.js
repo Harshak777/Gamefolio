@@ -22,7 +22,8 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
-    gtoken: DataTypes.STRING
+    gtoken: DataTypes.STRING,
+    verify: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'user',
