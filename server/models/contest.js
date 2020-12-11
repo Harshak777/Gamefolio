@@ -20,6 +20,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'cid',
         as: 'contest_id'
       });
+
+      winner.hasMany(models.winner, {
+        foreignKey: 'cid',
+        as: 'cont_id'
+      });
     }
   };
   contest.init({
