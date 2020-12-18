@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       winner.belongsTo(models.team, {
         foreignKey: 'tid',
-        as: 'team_id'
+        as: 'teamW_id'
       });
 
       winner.belongsTo(models.contest, {
