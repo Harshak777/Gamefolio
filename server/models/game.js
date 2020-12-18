@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      game.belongsTo(models.contest, {
+      game.hasMany(models.contest, {
         foreignKey: 'gid',
         as: 'game_id'
       });

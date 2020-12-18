@@ -11,17 +11,17 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      participant.belongsToMany(models.user, {
+      participant.belongsTo(models.user, {
         foreignKey: 'uid',
         as: 'user_id'
       });
 
-      participant.belongsToMany(models.team, {
+      participant.belongsTo(models.team, {
         foreignKey: 'tid',
         as: 'team_id'
       });
 
-      participant.belongsToMany(models.contest, {
+      participant.belongsTo(models.contest, {
         foreignKey: 'cid',
         as: 'contest_id'
       });
