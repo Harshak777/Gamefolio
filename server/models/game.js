@@ -18,7 +18,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   game.init({
-    gid: DataTypes.INTEGER,
+    gid: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
     name: DataTypes.STRING,
     rules: DataTypes.STRING,
     platform: DataTypes.STRING

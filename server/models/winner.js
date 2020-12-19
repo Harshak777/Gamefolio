@@ -23,7 +23,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   winner.init({
-    wid: DataTypes.INTEGER,
+    wid: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
     tid: DataTypes.INTEGER,
     cid: DataTypes.INTEGER,
     position: DataTypes.INTEGER

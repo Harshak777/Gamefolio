@@ -28,7 +28,13 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   contest.init({
-    cid: DataTypes.INTEGER,
+    cid:
+      {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+      }
+    ,
     contestName: DataTypes.STRING,
     organiser: DataTypes.STRING,
     reward: DataTypes.STRING,

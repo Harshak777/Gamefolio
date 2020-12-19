@@ -23,7 +23,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   team.init({
-    tid: DataTypes.INTEGER,
+    tid:{
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
     name: DataTypes.STRING,
     referral: DataTypes.STRING
   }, {
