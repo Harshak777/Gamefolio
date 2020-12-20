@@ -1,6 +1,9 @@
 const express = require('express');
+const bcrypt = require('bcrypt');
 
-const { sequelize,game,contest } = require('./models');
+const { sequelize,game,contest,users } = require('./models');
+const { signAccessToken } = require('./jwt_helper');
+
 
 const app = express();
 app.use(express.json());
@@ -9,16 +12,34 @@ app.use(express.json());
 app.post('/creategame', async(req, res) => {
     const { name, rules, platform } = req.body;
 
+
 try{
    const insertinggameDetails= await game.create({ name, rules, platform });
 
     return res.json(insertinggameDetails);
+
 } catch(err) {
     console.log(err);
     return res.status(500).json(err);
 }
 
 });
+  app.post('/signup', async(req, res) => {
+    const { name, email, password } = req.body;
+try{
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const savedUser = await user.create({ name, email, password: hashedPassword });
+    const accessToken = await signAccessToken(savedUser.uid);
+    return res.json({accessToken});
+} catch(err) {
+    console.log(err);
+    return res.status(500).json(err);
+}
+
+});
+
 
 
 //creating contest
@@ -59,9 +80,21 @@ app.get('/fetchgame/:gid' ,async(req,res)=>{
 })
 
 
+app.post('/login', async(req, res) => {
+    try {
+        
+        await bcrypt.compare(password, this.password);
+
+    } catch (error) {
+        console.log(err);
+        return res.status(500).json(err);
+    };
+});
+
 app.listen({ port: 5000 }, async () => {
     console.log('Server listening on port 5000');
-    // await sequelize.sync({force: true});
+    await sequelize.sync();
+
     console.log('Database synced!');
-})
+});
     
