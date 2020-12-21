@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 
-const { sequelize,game,contest,users } = require('./models');
+const { sequelize, game ,contest ,user } = require('./models');
 const { signAccessToken } = require('./jwt_helper');
 
 
@@ -24,19 +24,20 @@ try{
 }
 
 });
-  app.post('/signup', async(req, res) => {
-    const { name, email, password } = req.body;
-try{
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
 
-    const savedUser = await user.create({ name, email, password: hashedPassword });
-    const accessToken = await signAccessToken(savedUser.uid);
-    return res.json({accessToken});
-} catch(err) {
-    console.log(err);
-    return res.status(500).json(err);
-}
+app.post('/signup', async(req, res) => {
+    const { name, email, password } = req.body;
+    try{
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        const savedUser = await user.create({ name, email, password: hashedPassword });
+        const accessToken = await signAccessToken(savedUser.uid);
+        return res.json({accessToken});
+    } catch(err) {
+        console.log(err);
+        return res.status(500).json(err);
+    }
 
 });
 
@@ -81,19 +82,45 @@ app.get('/fetchgame/:gid' ,async(req,res)=>{
 
 
 app.post('/login', async(req, res) => {
+    const {email, password} = req.body;
+
     try {
         
-        await bcrypt.compare(password, this.password);
+        const users = await user.findOne(
+            {
+            where: {email}
+            },
+            { attributes: ['password'] }
+        );
+
+        await bcrypt.compare(password, users.password, (err, result) => {
+            if(result) {
+                return res.status(200).json('User found');
+            } else {
+                console.log(users);
+                return res.status(500).json({err: 'Email/ Password entered is not correct'});
+            }
+        });
 
     } catch (error) {
-        console.log(err);
-        return res.status(500).json(err);
+        console.log(error);
+        return res.status(500).json({err: 'Email entered is not correct'});
     };
 });
 
+app.get('/users', async(req, res) => {
+    try {
+        const allUsers = await user.findAll()
+
+        return res.json(allUsers);
+    } catch (error) {
+        return res.status(500).json({ error: 'Something went wrong' });
+    }
+})
+
 app.listen({ port: 5000 }, async () => {
     console.log('Server listening on port 5000');
-    await sequelize.sync();
+    await sequelize.authenticate();
 
     console.log('Database synced!');
 });
