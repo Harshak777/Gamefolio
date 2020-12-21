@@ -1,7 +1,9 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 
-const { sequelize, game ,contest ,user } = require('./models');
+const crypto = require('crypto');
+const { sequelize,game,contest,user,team ,participant} = require('./models');
+
 const { signAccessToken } = require('./jwt_helper');
 
 
@@ -24,6 +26,8 @@ try{
 }
 
 });
+
+//signup
 
 app.post('/signup', async(req, res) => {
     const { name, email, password } = req.body;
@@ -80,7 +84,7 @@ app.get('/fetchgame/:gid' ,async(req,res)=>{
     }
 })
 
-
+//login
 app.post('/login', async(req, res) => {
     const {email, password} = req.body;
 
@@ -108,6 +112,64 @@ app.post('/login', async(req, res) => {
     };
 });
 
+
+
+//creating team
+
+app.post('/createteam',async(req , res ) => {
+    const { name} = req.body;
+  var referral= crypto.randomBytes(8).toString('hex');
+     referral="#"+referral;
+    try {
+        const teamdetails = await team.create({ name, referral });   
+        return res.json(teamdetails);    
+ 
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json(error);
+        
+    }
+
+});
+
+
+//adding participant
+app.post('/addparticipant',async(req , res ) => {
+    const {cid,tid,uid} = req.body;
+   
+    try {
+        const participantdetails = await participant.create({ cid,tid,uid });   
+        return res.json(participantdetails);    
+ 
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json(error);
+        
+    }
+
+});
+
+
+//adding winner
+app.post('/addwinner',async(req , res ) => {
+    const {tid,cid,position} = req.body;
+   
+    try {
+        const winnerdetails = await participant.create({tid,cid,position});   
+        return res.json(winnerdetails);    
+ 
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json(error);
+        
+    }
+
+});
+
+
+
+
+
 app.get('/users', async(req, res) => {
     try {
         const allUsers = await user.findAll()
@@ -118,6 +180,8 @@ app.get('/users', async(req, res) => {
     }
 })
 
+
+//server port
 app.listen({ port: 5000 }, async () => {
     console.log('Server listening on port 5000');
     await sequelize.authenticate();
