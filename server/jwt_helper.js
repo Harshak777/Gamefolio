@@ -7,11 +7,11 @@ module.exports = {
             const payload = {
                 
             }
-            const secret = "sorgamvasal";
+            const secret = "sorgavaasal";
             const options = {
                 expiresIn: "1d",
                 issuer: "gamefolio.com",
-                audience: uid,
+                audience: toString(uid),
             };
             JWT.sign(payload, secret, options, (err, token) => {
                 if(err) return reject(err);
