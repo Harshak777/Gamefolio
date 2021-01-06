@@ -1,6 +1,6 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
-
+var cors = require('cors');
 const crypto = require('crypto');
 const { sequelize,game,contest,user,team ,participant} = require('./models');
 
@@ -9,6 +9,7 @@ const { signAccessToken } = require('./jwt_helper');
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 //creating game
 app.post('/creategame', async(req, res) => {
@@ -30,6 +31,7 @@ try{
 //signup
 
 app.post('/signup', async(req, res) => {
+    console.log(req.body);
     const { name, email, password } = req.body;
     try{
         const salt = await bcrypt.genSalt(10);
