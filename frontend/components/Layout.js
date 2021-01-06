@@ -7,7 +7,7 @@ const Layout = (props) => (
       <title>Gamefolio</title>
       <link rel="stylesheet" href="https://bootswatch.com/4/cerulean/bootstrap.min.css"/>
       <meta name="google-signin-scope" content="profile email"></meta>
-    <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com"></meta>
+    <meta name="google-signin-client_id" content="960527555483-09f7mgtkag4eva0n62dl6j6051fp9079.apps.googleusercontent.com"></meta>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     </Head>
     <Navbar/>
