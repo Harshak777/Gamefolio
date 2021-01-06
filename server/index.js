@@ -47,6 +47,21 @@ app.post('/signup', async(req, res) => {
 
 });
 
+app.post('/gsignup', async(req, res) => {
+    console.log(req.body);
+    const { name, email, gtoken} = req.body;
+    try{
+        
+
+        const guser = await user.create({ name, email,gtoken });
+        return res.json({guser});
+    } catch(err) {
+        console.log(err);
+        return res.status(500).json(err);
+    }
+
+});
+
 
 
 //creating contest
@@ -104,7 +119,7 @@ app.post('/login', async(req, res) => {
                 return res.status(200).json('User found');
             } else {
                 console.log(users);
-                return res.status(500).json({err: 'Email/ Password entered is not correct'});
+                return res.json({err: 'Email/ Password entered is not correct'});
             }
         });
 
@@ -186,6 +201,7 @@ app.get('/users', async(req, res) => {
 //server port
 app.listen({ port: 5000 }, async () => {
     console.log('Server listening on port 5000');
+    // await sequelize.sync({ force: true })
     await sequelize.authenticate();
 
     console.log('Database synced!');

@@ -28,8 +28,16 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true
     },
-    name: DataTypes.STRING,
-    email: DataTypes.STRING,
+    name: {
+     type: DataTypes.STRING,
+     allowNull: false,
+     unique: true
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+     },
     password: DataTypes.STRING,
     gtoken: DataTypes.STRING,
     verify: DataTypes.BOOLEAN

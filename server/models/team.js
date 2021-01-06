@@ -28,8 +28,16 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true
     },
-    name: DataTypes.STRING,
-    referral: DataTypes.STRING
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+     },
+    referral: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+     }
   }, {
     sequelize,
     modelName: 'team',
