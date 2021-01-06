@@ -7,7 +7,7 @@ const Navbar = () => (
       <div className="collapse navbar-collapse">
         <ul className="navbar-nav ml-auto">
           <li className="nav-item">
-            <Link href="/home"><a className="nav-link">Home</a></Link>
+            <Link href="/"><a className="nav-link">Home</a></Link>
           </li>
           <li className="nav-item">
             <Link href="/login"><a className="nav-link">Login</a></Link>
