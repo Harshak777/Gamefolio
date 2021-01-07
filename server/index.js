@@ -31,15 +31,27 @@ try{
 //signup
 
 app.post('/signup', async(req, res) => {
-    console.log(req.body);
     const { name, email, password } = req.body;
     try{
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
+        const users = await user.findOne(
+            {
+            where: {email}
+            }
+        );
 
-        const savedUser = await user.create({ name, email, password: hashedPassword });
-        const accessToken = await signAccessToken(savedUser.uid);
-        return res.json({accessToken});
+        if(users === null) {
+
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(password, salt);
+    
+            const savedUser = await user.create({ name, email, password: hashedPassword });
+            const accessToken = await signAccessToken(savedUser.uid);
+            return res.json({accessToken});
+
+        } else {
+            return res.status(400).json('Error: Email already exists');
+        }
+
     } catch(err) {
         console.log(err);
         return res.status(500).json(err);
@@ -49,12 +61,23 @@ app.post('/signup', async(req, res) => {
 
 app.post('/gsignup', async(req, res) => {
     console.log(req.body);
-    const { name, email, gtoken} = req.body;
+    const { name, email, gtoken, verify} = req.body;
     try{
-        
+        const users = await user.findOne(
+            {
+            where: {gtoken}
+            }
+        );
+        if(users === null) {
 
-        const guser = await user.create({ name, email,gtoken });
-        return res.json({guser});
+            const guser = await user.create({ name, email,gtoken, verify });
+            const accessToken = await signAccessToken(guser.uid);
+            return res.json({accessToken});
+
+        } else {
+            const accessToken = await signAccessToken(users.uid);
+            return res.json({accessToken});
+        }
     } catch(err) {
         console.log(err);
         return res.status(500).json(err);
