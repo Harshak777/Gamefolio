@@ -80,11 +80,12 @@ export default class signup extends Component {
 
                 axios.post('http://localhost:5000/signup', form)
                     .then(res => {
-                        console.log(res);
-                        Router.push("/");
+                        console.log(res.data);
+                        //Router.push("/");
                     })
                     .catch(err => {
                         console.log(err);
+                        alert("Email already exists!");
                     });
             }
         }
@@ -108,7 +109,8 @@ export default class signup extends Component {
             const form = {
                 name: this.state.name,
                 gtoken: this.state.gtoken,
-                email: this.state.email
+                email: this.state.email,
+                verify: true
             };
 
             axios.post('http://localhost:5000/gsignup', form)
@@ -127,15 +129,12 @@ export default class signup extends Component {
             <Layout>
                 <div className="row">
                     <div className="col-md-6 offset-md-3">
-
-
                         <GoogleLogin
                             clientId="960527555483-09f7mgtkag4eva0n62dl6j6051fp9079.apps.googleusercontent.com"
-                            buttonText="Login with Google"
+                            buttonText="Sign Up with Google"
                             onSuccess={responseGoogle}
-                            onFailure={responseGoogle} ></GoogleLogin>
-
-
+                            onFailure={responseGoogle} >
+                        </GoogleLogin>
                         <hr className="my-4"></hr>
                         <form onSubmit={this.onSubmit}>
                             <fieldset>
