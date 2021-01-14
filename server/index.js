@@ -104,12 +104,20 @@ app.post('/createcontest',async(req,res) => {
 
 app.get('/fetchcontest' ,async(req,res)=>{
     try {
-        const allcontest= await contest.findAll();
+        const allcontest= await  contest.findAll({
+            include: [{model: game, as: 'game_id'}]
+        });
         return res.json(allcontest);
     } catch (error) {
         console.log(error);
     return res.status(500).json(error);
     }
+    // game.findAll({
+    //     include: [{model: contest, as: 'game_id'}]
+    // }).then(function (result) {
+    //     console.log(JSON.stringify(result));
+    // });
+    
 })
 
 //fetching game
