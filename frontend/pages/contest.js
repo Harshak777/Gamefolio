@@ -13,7 +13,7 @@ export default class contest extends Component {
         super();
 
         this.state = {
-            contest: [{"cid": 2}]
+            contest: [{"cid": 2,"end": "2021-01-24T00:00:00.000Z", "game_id": {"name": "", "platform": ""}}]
         };
     }
 
@@ -37,31 +37,31 @@ export default class contest extends Component {
         return (
             <Layout>
                 {this.state.contest.map(value => (
-                        
-                <div class="card mb-3" style={{maxWidth: "20rem"}}>
-                <h3 class="card-header">{value.contestName}</h3>
-                <div class="card-body">
-                    <h5 class="card-title">Special title treatment</h5>
-                    <h6 class="card-subtitle text-muted">Support card subtitle</h6>
+                        console.log(value.game_id.name),
+                <div className="card mb-3" style={{maxWidth: "20rem"}}>
+                <h3 className="card-header">{value.contestName}</h3>
+                <div className="card-body">
+                    <h4 className="card-title">{value.game_id.name}</h4>
+                    <h6 className="card-subtitle text-muted">{value.game_id.platform}</h6>
                 </div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="d-block user-select-none" width="100%" height="200" aria-label="Placeholder: Image cap" focusable="false" role="img" preserveAspectRatio="xMidYMid slice" viewBox="0 0 318 180" >
+                <svg xmlns="http://www.w3.org/2000/svg" className="d-block user-select-none" width="100%" height="200" aria-label="Placeholder: Image cap" focusable="false" role="img" preserveAspectRatio="xMidYMid slice" viewBox="0 0 318 180" >
                     <rect width="100%" height="100%" fill="#868e96"></rect>
                     <text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text>
                 </svg>
-                <div class="card-body">
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <div className="card-body">
+                    <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                 </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Cras justo odio</li>
-                    <li class="list-group-item">Dapibus ac facilisis in</li>
-                    <li class="list-group-item">Vestibulum at eros</li>
+                <ul className="list-group list-group-flush">
+                    <li className="list-group-item">Start Date: {value.start}</li>
+                    <li className="list-group-item">End Date: {value.end}</li>
                 </ul>
-                <div class="card-body">
-                    <a href="#" class="card-link">Card link</a>
-                    <a href="#" class="card-link">Another link</a>
+                <div className="card-body">
+                    <a href="#" className="card-link btn btn-primary">Register</a>
                 </div>
-                <div class="card-footer text-muted">
-                    2 days ago
+                <div className="card-footer text-muted">
+                {console.log(new Date().toLocaleDateString().replaceAll('/',''))}
+                {console.log(value.end.slice(0,10).split("-").reverse().join(""))}
+                    {value.end > Date.now() && Live}
                 </div>
                 </div>
                 ))}
