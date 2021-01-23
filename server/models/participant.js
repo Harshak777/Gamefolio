@@ -30,7 +30,8 @@ module.exports = (sequelize, DataTypes) => {
   participant.init({
     cid: DataTypes.INTEGER,
     tid: DataTypes.INTEGER,
-    uid: DataTypes.INTEGER
+    uid: DataTypes.INTEGER,
+    ingame_id: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'participant',
