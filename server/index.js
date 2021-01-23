@@ -102,7 +102,7 @@ app.post('/createcontest',async(req,res) => {
 
 //fetching contest
 
-app.get('/fetchcontest' ,async(req,res)=>{
+app.get('/fetchcontests' ,async(req,res)=>{
     try {
         const allcontest= await  contest.findAll({
             include: [{model: game, as: 'game_id'}]
@@ -121,10 +121,11 @@ app.get('/fetchcontest' ,async(req,res)=>{
 })
 
 //fetching game
-app.get('/fetchgame/:gid' ,async(req,res)=>{
-    const gid=req.params.gid;
+app.get('/fetchcontest/:cid' ,async(req,res)=>{
+    const cid=req.params.cid;
+    console.log(cid);
     try {
-        const gettinggameDetails= await game.findOne({where : {gid}});
+        const gettinggameDetails= await contest.findOne({where : {cid}, include: [{model: game, as: 'game_id'}]});
         return res.json(gettinggameDetails);
     } catch (error) {
         console.log(error);
