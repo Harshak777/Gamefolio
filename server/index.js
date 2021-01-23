@@ -184,10 +184,10 @@ app.post('/createteam',async(req , res ) => {
 
 //adding participant
 app.post('/addparticipant',async(req , res ) => {
-    const {cid,tid,uid} = req.body;
+    const {cid,tid,uid,ingame_id} = req.body;
    
     try {
-        const participantdetails = await participant.create({ cid,tid,uid });   
+        const participantdetails = await participant.create({ cid,tid,uid,ingame_id });   
         return res.json(participantdetails);    
  
     } catch (error) {
