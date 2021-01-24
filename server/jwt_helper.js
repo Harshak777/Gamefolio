@@ -5,17 +5,30 @@ module.exports = {
     signAccessToken: (uid) => {
         return new Promise((resolve, reject) => {
             const payload = {
-                
+                uid
             }
             const secret = "sorgavaasal";
             const options = {
                 expiresIn: "1d",
                 issuer: "gamefolio.com",
-                audience: toString(uid),
+                audience: ""+uid,
             };
             JWT.sign(payload, secret, options, (err, token) => {
                 if(err) return reject(err);
                 resolve(token);
+            })
+        })
+    },
+
+    verifyAccessToken: (accessToken) => {
+        return new Promise((resolve, reject) => {
+            const payload = {
+                
+            }
+            const secret = "sorgavaasal";
+            JWT.verify(accessToken, secret, (err, decoded) => {
+                if(err) return reject(err);
+                resolve(decoded);
             })
         })
     }

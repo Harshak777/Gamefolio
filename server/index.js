@@ -4,7 +4,7 @@ var cors = require('cors');
 const crypto = require('crypto');
 const { sequelize,game,contest,user,team ,participant} = require('./models');
 
-const { signAccessToken } = require('./jwt_helper');
+const { signAccessToken, verifyAccessToken } = require('./jwt_helper');
 
 
 const app = express();
@@ -57,6 +57,19 @@ app.post('/signup', async(req, res) => {
         return res.status(500).json(err);
     }
 
+});
+
+app.post('/jwtverify', async(req,res) => {
+    const { accessToken } = req.body;
+    try {
+
+        var decoded = await verifyAccessToken(accessToken);
+        return res.json({decoded});
+        
+    } catch(err) {
+        console.log(err);
+        return res.status(500).json(err);
+    }
 });
 
 app.post('/gsignup', async(req, res) => {

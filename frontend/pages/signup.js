@@ -81,7 +81,7 @@ export default class signup extends Component {
                 axios.post('http://localhost:5000/signup', form)
                     .then(res => {
                         console.log(res.data);
-                        //Router.push("/");
+                        Router.push("/");
                     })
                     .catch(err => {
                         console.log(err);
@@ -116,7 +116,8 @@ export default class signup extends Component {
             axios.post('http://localhost:5000/gsignup', form)
                 .then(res => {
                     console.log(res);
-                    Router.push("/");
+                    localStorage.setItem('accessToken', res.data.accessToken);
+                    //Router.push("/");
                 })
                 .catch(err => {
                     console.log(err);

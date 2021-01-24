@@ -38,10 +38,21 @@ const tournament = () => {
 
   const submit  = async (e) => {
     e.preventDefault();
+    var uid;
+    const temp = {accessToken: localStorage.getItem('accessToken')}
+    await axios.post('http://localhost:5000/jwtverify', temp)
+                .then(res => {
+                    console.log(res.data.decoded.uid);
+                    uid=res.data.decoded.uid;
+                    alert(res.request.statusText);
+                })
+                .catch(err => {
+                    console.log(err);
+                }); 
     const form = {
       cid,
       name: field["team"],
-      uid: '1',
+      uid: uid,
       ingame_id: field["ingameID1"]
     }
     console.log(form);
@@ -57,10 +68,22 @@ const tournament = () => {
 
   const submitWR = async (e) => {
     e.preventDefault();
+    var uid;
+    const temp = {accessToken: localStorage.getItem('accessToken')}
+    await axios.post('http://localhost:5000/jwtverify', temp)
+                .then(res => {
+                    console.log(res.data.decoded.uid);
+                    uid=res.data.decoded.uid;
+                    alert(res.request.statusText);
+                })
+                .catch(err => {
+                    console.log(err);
+                }); 
+
     const form = {
       cid,
       ref: field["ref"],
-      uid: '3',
+      uid: uid,
       ingame_id: field["ingameID2"]
     };
     console.log(form);
