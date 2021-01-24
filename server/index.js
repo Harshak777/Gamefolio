@@ -184,11 +184,21 @@ app.post('/createteam',async(req , res ) => {
 
 //adding participant
 app.post('/addparticipant',async(req , res ) => {
-    const {cid,tid,uid,ingame_id} = req.body;
+    const {cid,uid,ingame_id,name} = req.body;
+    var referral= crypto.randomBytes(4).toString('hex');
+    referral="#"+referral;
+
+    console.log(referral);
    
     try {
+        const teamdetails = await team.create({ name, referral });
+        console.log(teamdetails.dataValues.tid);
+        // return res.json(teamdetails);
+        const tid = teamdetails.dataValues.tid;
+        console.log(tid);
+
         const participantdetails = await participant.create({ cid,tid,uid,ingame_id });   
-        return res.json(participantdetails);    
+        return res.json({ref: teamdetails.dataValues.referral});    
  
     } catch (error) {
         console.log(error);
@@ -198,6 +208,27 @@ app.post('/addparticipant',async(req , res ) => {
 
 });
 
+app.post('/addparticipantwr',async(req , res ) => {
+    const {cid,uid,ingame_id, ref} = req.body;
+   
+    try {
+        const teamId = await team.findOne(
+            {
+            where: {referral: ref}
+            },
+            { attributes: ['tid'] }
+        );
+
+        const participantdetails = await participant.create({ cid,tid: teamId.tid,uid,ingame_id });   
+        return res.json(participantdetails);    
+ 
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json(error);
+        
+    }
+
+});
 
 //adding winner
 app.post('/addwinner',async(req , res ) => {

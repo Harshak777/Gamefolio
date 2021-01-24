@@ -10,12 +10,15 @@ const tournament = () => {
   const router = useRouter()
   const { cid } = router.query
 
-
-
-
   const [data, setData] = useState({});
-  console.log(cid)
+  console.log(cid);
   const [isLoading, setIsLoading] = useState(true);
+  const [field, setField] = useState({
+    team: '',
+    ref: '',
+    ingameID1: '',
+    ingameID2: ''
+  });
   useEffect(() => {
 
     const fetchdata = async () => {
@@ -33,44 +36,96 @@ const tournament = () => {
 
   }, [cid]);
 
+  const submit  = async (e) => {
+    e.preventDefault();
+    const form = {
+      cid,
+      name: field["team"],
+      uid: '1',
+      ingame_id: field["ingameID1"]
+    }
+    console.log(form);
+    await axios.post('http://localhost:5000/addparticipant', form)
+                .then(res => {
+                    console.log(res);
+                    alert(res.data.ref);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+  }
+
+  const submitWR = async (e) => {
+    e.preventDefault();
+    const form = {
+      cid,
+      ref: field["ref"],
+      uid: '3',
+      ingame_id: field["ingameID2"]
+    };
+    console.log(form);
+    await axios.post('http://localhost:5000/addparticipantwr', form)
+                .then(res => {
+                    console.log(res);
+                    alert(res.request.statusText);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+  }
+
+  let handleChange = (e) => {
+    let name = e.target.name;
+    let value = e.target.value;
+    field[name] = value;
+    setField(field);
+  }
+
 
 
 if(isLoading)
-return <p>wait</p>
+return <p>{isLoading.toString()}</p>
 else{
   return (
     <Layout>
-                    <div class="card mb-3" style={{ maxWidth: "20rem" }}>
-                        <h3 class="card-header">{data.contestName}</h3>
-                        <div class="card-body">
-                            <h5 class="card-title">{}</h5>
-                            <h6 class="card-subtitle text-muted">organiser:{data.organiser}</h6>
-                        </div>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="d-block user-select-none" width="100%" height="200" aria-label="Placeholder: Image cap" focusable="false" role="img" preserveAspectRatio="xMidYMid slice" viewBox="0 0 318 180" >
-                            <rect width="100%" height="100%" fill="#868e96"></rect>
-                            <text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text>
-                        </svg>
-                        <div class="card-body">
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Start date: {data.start}</li>
-                            <li class="list-group-item">End date : {data.end}</li>
-                            <li class="list-group-item">Reward : {data.reward}</li>
-                        </ul>
-                        <div class="card-footer text-muted">
-                            <p class="text-success"><strong>Live</strong></p>
-                        </div>
-                    </div>
-                    <button type="button" class="btn btn-primary"  onClick={() => {
-        Router.push(`/register`)
-      }}>Register</button>
-
+      <div className="container">
+        <div className="row">
+          <div className="col">
+            <h2>New Team</h2>
+            <small id="emailHelp" className="form-text text-muted">Create a New team</small>
+          <form method="POST" onSubmit={submit}>
+            <div className="form-group">
+              <label>Team Name</label>
+              <input type="text" className="form-control" id="teamName" placeholder="Enter your Team name" name="team" onChange={handleChange}/>
+            </div>
+            <div className="form-group">
+              <label>Ingame ID</label>
+              <input type="text" className="form-control" id="ingameID" placeholder="Ingame ID" name="ingameID1" onChange={handleChange}/>
+            </div>
+            <button type="submit" className="btn btn-primary">Create</button>
+          </form>
+          </div>
+          <div className="col">
+          <h2>Already Team</h2>
+          <small id="emailHelp" className="form-text text-muted">Join your team with your team referal code</small>
+          <form method="POST" onSubmit={submitWR}>
+            <div className="form-group">
+              <label >Referal code</label>
+              <input type="text" className="form-control" id="referalCode" placeholder="Enter Referal Code" name="ref" onChange={handleChange}/>
+            </div>
+            <div className="form-group">
+              <label >Ingame ID</label>
+              <input type="text" className="form-control" id="ingameID" placeholder="Ingame ID" name="ingameID2" onChange={handleChange}/>
+            </div>
+            <button type="submit" className="btn btn-primary">Join</button>
+          </form>
+          </div>
+        </div>
+      </div>      
     </Layout>
-
   );
-                  }
+  }
 }
 
-export default tournament
+export default tournament;
 
