@@ -128,47 +128,49 @@ export default class signup extends Component {
 
         return (
             <Layout>
-                <div className="row">
-                    <div className="col-md-6 offset-md-3">
-                        <GoogleLogin
-                            clientId="960527555483-09f7mgtkag4eva0n62dl6j6051fp9079.apps.googleusercontent.com"
-                            buttonText="Sign Up with Google"
-                            onSuccess={responseGoogle}
-                            onFailure={responseGoogle} >
-                        </GoogleLogin>
-                        <hr className="my-4"></hr>
-                        <form onSubmit={this.onSubmit}>
-                            <fieldset>
-                                <div className="form-group">
-                                    <label htmlFor="exampleInputEmail1">Email address</label>
-                                    <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" value={this.state.email}
-                                        onChange={this.onChangeEmail} required />
-                                    <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="exampleInputPassword1">User name</label>
-                                    <input type="username" className="form-control" id="exampleInputPassword1" placeholder="username" value={this.state.name}
-                                        onChange={this.onChangeName} required />
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="exampleInputPassword1">Password</label>
-                                    <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" value={this.state.password}
-                                        onChange={this.onChangePassword} required />
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="exampleInputPassword1">Re enter Password</label>
-                                    <input type="password" className="form-control" id="exampleInputPassword2" placeholder="Password" value={this.state.rpassword}
-                                        onChange={this.onChangeRpassword} required />
-                                    {this.state.simi && <small id="emailHelp" className="form-text text-muted">Password not matched.</small>}
-                                </div>
-                                <div className="form-group">
+               <div className="sign-bg-img">
+                    <div className="row m-0 sign-up">
+                        <div className="col-md-6 offset-md-3 sign-container">
+                            <GoogleLogin
+                                clientId="960527555483-09f7mgtkag4eva0n62dl6j6051fp9079.apps.googleusercontent.com"
+                                buttonText="Sign Up with Google"
+                                onSuccess={responseGoogle}
+                                onFailure={responseGoogle} >
+                            </GoogleLogin>
+                            <hr className="my-4"></hr>
+                            <form onSubmit={this.onSubmit}>
+                                <fieldset>
+                                    <div className="form-group">
+                                        <label htmlFor="exampleInputEmail1">Email address</label>
+                                        <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" value={this.state.email}
+                                            onChange={this.onChangeEmail} required />
+                                        <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="exampleInputPassword1">User name</label>
+                                        <input type="username" className="form-control" id="exampleInputPassword1" placeholder="username" value={this.state.name}
+                                            onChange={this.onChangeName} required />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="exampleInputPassword1">Password</label>
+                                        <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" value={this.state.password}
+                                            onChange={this.onChangePassword} required />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="exampleInputPassword1">Re enter Password</label>
+                                        <input type="password" className="form-control" id="exampleInputPassword2" placeholder="Password" value={this.state.rpassword}
+                                            onChange={this.onChangeRpassword} required />
+                                        {this.state.simi && <small id="emailHelp" className="form-text text-muted">Password not matched.</small>}
+                                    </div>
+                                    <div className="form-group">
 
-                                    <button type="submit" className="btn btn-primary">Register</button>
-                                </div>
-                            </fieldset>
-                        </form>
+                                        <button type="submit" className="btn btn-primary">Register</button>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
                     </div>
-                </div>
+                </div> 
             </Layout>
         )
     }

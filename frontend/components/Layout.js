@@ -10,9 +10,11 @@ const Layout = (props) => (
     <meta name="google-signin-client_id" content="960527555483-09f7mgtkag4eva0n62dl6j6051fp9079.apps.googleusercontent.com"></meta>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     </Head>
-    <Navbar/>
-    <div className="container">
-      {props.children}
+    <div className="container-fluid main-canvas p-0 min-vh-100">
+      <div className="inner-canvas">
+        <Navbar/>
+        {props.children}
+      </div>
     </div>
   </div>
 );
