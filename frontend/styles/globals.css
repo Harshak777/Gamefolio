@@ -40,7 +40,7 @@ a {
 }
 
 .sign-up {
-  background: rgba(50, 146, 166, 0.8);
+  background: rgba(82, 53, 39, 0.8);
     position: absolute;
     top: 0;
     left: 0;
@@ -58,27 +58,23 @@ a {
 }
 
 .sign-container {
-  background-color: #2c2a2a;
-  color: aliceblue;
-  height: 550px;
+  background-color: rgb(255, 255, 255);
+  color: black;
+  font-weight: 400;
+  font-size: large;
+  height: 77%;
   margin-top: 50px;
-  padding: 40px 0;
+  padding: 20px 0;
   border-radius: 20px;
 }
 
 .login-container {
-  background-color: #2c2a2a;
-  color: aliceblue;
-  height: 450px;
+  background-color: rgb(255, 255, 255);
+  color: black;
+  font-weight: 400;
+  font-size: large;
+  height: 57%;
   margin-top: 50px;
-  padding: 40px 0;
+  padding: 20px 0;
   border-radius: 20px;
-}
-
-.sign-container hr {
-  background-color: white;
-}
-
-.login-container hr {
-  background-color: white;
 }

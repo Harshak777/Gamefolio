@@ -130,7 +130,7 @@ export default class signup extends Component {
             <Layout>
                <div className="sign-bg-img">
                     <div className="row m-0 sign-up">
-                        <div className="col-md-6 offset-md-3 sign-container">
+                        <div className="col-md-4 offset-md-4 sign-container px-5">
                             <GoogleLogin
                                 clientId="960527555483-09f7mgtkag4eva0n62dl6j6051fp9079.apps.googleusercontent.com"
                                 buttonText="Sign Up with Google"

@@ -81,7 +81,7 @@ export default class login extends Component {
             <Layout>
                 <div className="bg-img">
                     <div className="row m-0 log-in">
-                        <div className="col-md-6 offset-md-3 login-container">
+                        <div className="col-md-4 offset-md-4 login-container px-5">
                             <GoogleLogin
                                 clientId="960527555483-09f7mgtkag4eva0n62dl6j6051fp9079.apps.googleusercontent.com"
                                 buttonText="Login with Google"
