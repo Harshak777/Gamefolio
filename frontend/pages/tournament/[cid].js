@@ -26,7 +26,12 @@ const tournament = () => {
         `http://localhost:5000/fetchcontest/${cid}`
       );
       setData(result.data);
-      console.log(result.data);
+      
+      if(localStorage.getItem('accessToken') == null) {
+        alert('Please Login to register');
+        Router.push("/login");
+      }
+
       if(result.data==null)
       setIsLoading(true);
       else
@@ -90,7 +95,6 @@ const tournament = () => {
     await axios.post('http://localhost:5000/addparticipantwr', form)
                 .then(res => {
                     console.log(res);
-                    alert(res.request.statusText);
                 })
                 .catch(err => {
                     console.log(err);

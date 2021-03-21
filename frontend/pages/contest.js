@@ -25,7 +25,6 @@ export default class contest extends Component {
     componentWillMount() {
         axios.get('http://localhost:5000/fetchcontests')
             .then(res => {
-                console.log(res.data);
                 this.setState({ contest: res.data });
                 //Router.push("/");
             })

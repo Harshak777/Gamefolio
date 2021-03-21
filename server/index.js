@@ -156,12 +156,15 @@ app.post('/login', async(req, res) => {
             {
             where: {email}
             },
-            { attributes: ['password'] }
+            { attributes: ['password', 'uid'] }
         );
 
-        await bcrypt.compare(password, users.password, (err, result) => {
+        console.log("Users: "+ users.uid);
+
+        await bcrypt.compare(password, users.password, async (err, result) => {
             if(result) {
-                return res.status(200).json('User found');
+                const accessToken = await signAccessToken(users.uid);
+                return res.status(200).json({status: 'User found', accessToken});
             } else {
                 console.log(users);
                 return res.json({err: 'Email/ Password entered is not correct'});
