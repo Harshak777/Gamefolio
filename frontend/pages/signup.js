@@ -81,7 +81,7 @@ export default class signup extends Component {
                 axios.post('http://localhost:5000/signup', form)
                     .then(res => {
                         console.log(res.data);
-                        Router.push("/");
+                        Router.push("/login");
                     })
                     .catch(err => {
                         console.log(err);
@@ -101,27 +101,29 @@ export default class signup extends Component {
             console.log(response);
             var res = response.profileObj;
             console.log(res);
-            this.setState({
-                name: res.name,
-                email: res.email,
-                gtoken: res.googleId
-            })
-            const form = {
-                name: this.state.name,
-                gtoken: this.state.gtoken,
-                email: this.state.email,
-                verify: true
-            };
-
-            axios.post('http://localhost:5000/gsignup', form)
-                .then(res => {
-                    console.log(res);
-                    localStorage.setItem('accessToken', res.data.accessToken);
-                    //Router.push("/");
+            if(res){
+                this.setState({
+                    name: res.name,
+                    email: res.email,
+                    gtoken: res.googleId
                 })
-                .catch(err => {
-                    console.log(err);
-                });
+                const form = {
+                    name: this.state.name,
+                    gtoken: this.state.gtoken,
+                    email: this.state.email,
+                    verify: true
+                };
+    
+                axios.post('http://localhost:5000/gsignup', form)
+                    .then(res => {
+                        console.log(res);
+                        localStorage.setItem('accessToken', res.data.accessToken);
+                        Router.push("/contest");
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            }
         }
 
 

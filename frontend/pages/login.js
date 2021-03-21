@@ -38,10 +38,11 @@ export default class login extends Component {
 
         axios.post('http://localhost:5000/login', form)
             .then(res => {
-                console.log(res);
-                if (res.data == "User found")
-                    Router.push("/");
-                else
+                console.log(res.data);
+                if (res.data.status == "User found") {
+                    localStorage.setItem('accessToken', res.data.accessToken);
+                    Router.push("/contest");
+                } else
                     alert('Email/ Password entered is not correct');
             })
             .catch(err => {
@@ -55,26 +56,29 @@ export default class login extends Component {
             console.log(response);
             var res = response.profileObj;
             console.log(res);
-            this.setState({
-                name: res.name,
-                email: res.email,
-                gtoken: res.googleId
-            })
-            const form = {
-                name: this.state.name,
-                gtoken: this.state.gtoken,
-                email: this.state.email,
-                verify: true
-            };
-
-            axios.post('http://localhost:5000/gsignup', form)
-                .then(res => {
-                    console.log(res);
-                    Router.push("/");
+            if(res) {
+                this.setState({
+                    name: res.name,
+                    email: res.email,
+                    gtoken: res.googleId
                 })
-                .catch(err => {
-                    console.log(err);
-                });
+                const form = {
+                    name: this.state.name,
+                    gtoken: this.state.gtoken,
+                    email: this.state.email,
+                    verify: true
+                };
+    
+                axios.post('http://localhost:5000/gsignup', form)
+                    .then(res => {
+                        console.log(res);
+                        localStorage.setItem('accessToken', res.data.accessToken);
+                        Router.push("/contest");
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            }
         }
         
         return (
