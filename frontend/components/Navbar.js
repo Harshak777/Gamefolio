@@ -1,21 +1,45 @@
 import Link from 'next/link';
-
-const Navbar = () => (
-  <nav className="navbar navbar-expand navbar-dark bg-dark">
-    <div className="container">
-      <a className="navbar-brand" href="/">Gamefolio</a>
-      <div className="collapse navbar-collapse">
-        <ul className="navbar-nav ml-auto">
-          <li className="nav-item">
-            <Link href="/signup"><a className="nav-link">Signup</a></Link>
-          </li>
-          <li className="nav-item">
-            <Link href="/login"><a className="nav-link">Login</a></Link>
-          </li>
-        </ul>
+import React, { useState } from 'react';
+import {
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  NavLink,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  NavbarText
+} from 'reactstrap';
+const TopNavbar = (props) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [islogin, setIslogin] = useState(false);
+  const toggle = () => setIsOpen(!isOpen);
+  return (
+    <div>
+      <Navbar color="dark" light expand="md">
+        <NavbarBrand href="/" style={{color:"white"}}>Gamefolio</NavbarBrand>
+        <NavbarToggler onClick={toggle} />
+        <Collapse isOpen={isOpen} navbar>
+          <Nav className="mr-auto" navbar>
+            <NavItem>
+              <NavLink href="/contest/" style={{color:"white"}}>Contest</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="/" style={{color:"white"}}>Dashboard</NavLink>
+            </NavItem>
+          </Nav>
+          <Link href="/login">
+            <NavbarText style={{color:"white"}}>Login/Signup</NavbarText>
+          </Link>
+          </Collapse>
+      </Navbar>
       </div>
-    </div>
-  </nav>
-);
 
-export default Navbar;
+ )
+};
+
+export default TopNavbar;

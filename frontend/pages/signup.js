@@ -130,8 +130,8 @@ export default class signup extends Component {
 
         return (
             <Layout>
-               <div className="sign-bg-img">
-                    <div className="row m-0 sign-up">
+              <Jumbotron fluid>
+                    <Container fluid>
                         <div className="col-md-4 offset-md-4 sign-container px-5">
                             <GoogleLogin
                                 clientId="960527555483-09f7mgtkag4eva0n62dl6j6051fp9079.apps.googleusercontent.com"
@@ -171,8 +171,8 @@ export default class signup extends Component {
                                 </fieldset>
                             </form>
                         </div>
-                    </div>
-                </div> 
+                        </Container>
+                </Jumbotron>
             </Layout>
         )
     }

@@ -5,6 +5,7 @@ import Router from 'next/router';
 import Layout from "../components/Layout";
 import { GoogleLogin } from 'react-google-login';
 import { Button } from 'react-bootstrap';
+import { Container, Row, Col, Jumbotron, Card, CardBody } from "reactstrap";
 
 export default class login extends Component {
     constructor() {
@@ -38,11 +39,12 @@ export default class login extends Component {
 
         axios.post('http://localhost:5000/login', form)
             .then(res => {
-                console.log(res.data);
+                console.log(res);
                 if (res.data.status == "User found") {
                     localStorage.setItem('accessToken', res.data.accessToken);
                     Router.push("/contest");
-                } else
+                }
+                else
                     alert('Email/ Password entered is not correct');
             })
             .catch(err => {
@@ -56,7 +58,7 @@ export default class login extends Component {
             console.log(response);
             var res = response.profileObj;
             console.log(res);
-            if(res) {
+            if (res) {
                 this.setState({
                     name: res.name,
                     email: res.email,
@@ -68,7 +70,7 @@ export default class login extends Component {
                     email: this.state.email,
                     verify: true
                 };
-    
+
                 axios.post('http://localhost:5000/gsignup', form)
                     .then(res => {
                         console.log(res);
@@ -79,42 +81,56 @@ export default class login extends Component {
                         console.log(err);
                     });
             }
+            axios.post('http://localhost:5000/gsignup', form)
+                .then(res => {
+                    console.log(res);
+                    Router.push("/");
+                })
+                .catch(err => {
+                    console.log(err);
+                });
         }
-        
+
         return (
             <Layout>
-                <div className="bg-img">
-                    <div className="row m-0 log-in">
-                        <div className="col-md-4 offset-md-4 login-container px-5">
-                            <GoogleLogin
-                                clientId="960527555483-09f7mgtkag4eva0n62dl6j6051fp9079.apps.googleusercontent.com"
-                                buttonText="Login with Google"
-                                onSuccess={responseGoogle}
-                                onFailure={responseGoogle} >
-                            </GoogleLogin>
-                            <hr className="my-4"></hr>
-                            <form onSubmit={this.onSubmit}>
-                                <fieldset>
-                                    <div className="form-group">
-                                        <label htmlFor="exampleInputEmail1">Email address</label>
-                                        <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" value={this.state.email} onChange={this.onChangeEmail} required />
-                                        <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="exampleInputPassword1">Password</label>
-                                        <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" value={this.state.password}
-                                            onChange={this.onChangePassword} required />
-                                    </div>
-                                    <div className="form-group">
 
-                                        <Button variant="success" type="submit">Login</Button>
-                                    </div>
-                                    <Link href="/signup"><a className="text-primary">Are you a new user?</a></Link>
-                                </fieldset>
-                            </form>
-                        </div>
-                    </div>
+
+                <div>
+                    <Jumbotron fluid>
+                        <Container fluid>
+                            <div className="col-md-4 offset-md-4 login-container px-5">
+                                <GoogleLogin
+                                    clientId="960527555483-09f7mgtkag4eva0n62dl6j6051fp9079.apps.googleusercontent.com"
+                                    buttonText="Login with Google"
+                                    onSuccess={responseGoogle}
+                                    onFailure={responseGoogle} >
+                                </GoogleLogin>
+                                <hr className="my-4"></hr>
+                                <form onSubmit={this.onSubmit}>
+                                    <fieldset>
+                                        <div className="form-group">
+                                            <label htmlFor="exampleInputEmail1">Email address</label>
+                                            <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" value={this.state.email} onChange={this.onChangeEmail} required />
+                                            <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+                                        </div>
+                                        <div className="form-group">
+                                            <label htmlFor="exampleInputPassword1">Password</label>
+                                            <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" value={this.state.password}
+                                                onChange={this.onChangePassword} required />
+                                        </div>
+                                        <div className="form-group">
+
+                                            <Button variant="success" type="submit">Login</Button>
+                                        </div>
+                                        <Link href="/signup"><a className="text-primary">Are you a new user?</a></Link>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </Container>
+                    </Jumbotron>
                 </div>
+
+
             </Layout>
 
         )
