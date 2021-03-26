@@ -3,7 +3,7 @@ import Layout from "../components/Layout";
 import axios from 'axios';
 import Router from 'next/router';
 import { GoogleLogin } from 'react-google-login';
-
+import { Container, Row, Col, Jumbotron, Card, CardBody } from "reactstrap";
 
 export default class signup extends Component {
 
