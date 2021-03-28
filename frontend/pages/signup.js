@@ -6,7 +6,6 @@ import Router from 'next/router';
 import { GoogleLogin } from 'react-google-login';
 import { Container, Jumbotron, Alert } from "reactstrap";
 
-
 export default class signup extends Component {
 
     constructor() {

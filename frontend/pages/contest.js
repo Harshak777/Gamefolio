@@ -5,7 +5,11 @@ import Router from 'next/router';
 import Layout from "../components/Layout";
 import Head from 'next/head';
 import { useRouter } from 'next/router'
-
+import {
+    Nav, NavItem, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, NavLink, Container, Row, Col, Card, CardImg, CardText, CardBody,
+    CardTitle, CardSubtitle, Button, CardColumns, CardGroup
+} from 'reactstrap';
+import { BsController, BsFillPersonFill, BsTrophy } from "react-icons/bs"
 
 
 // style={{maxWidth: "20rem"}}
@@ -15,18 +19,23 @@ export default class contest extends Component {
         super();
 
         this.state = {
-            contest: [{ "cid": 1, "game_id": { gid: 1, name: "", rules: "", platform: "" } }],
+            contest: [],
+            contests: [],
+            dropdownOpen: false,
+            isloading: true
 
         };
     };
 
-    
+
 
     componentWillMount() {
         axios.get('http://localhost:5000/fetchcontests')
             .then(res => {
                 this.setState({ contest: res.data });
+                this.setState({ contests: res.data });
                 //Router.push("/");
+                this.setState({ isloading: false })
             })
             .catch(err => {
                 console.log(err);
@@ -36,49 +45,92 @@ export default class contest extends Component {
 
     }
 
+    toggle = () => {
+        this.setState({ dropdownOpen: !this.state.dropdownOpen })
+    }
+
+    live = () => {
+
+        var content = this.state.contests.filter((value) => { return Date.parse(value.start) <= Date.now() && Date.parse(value.end) > Date.now() })
+        console.log(content);
+        this.setState({ contest: content })
+    }
+
+    upcoming = () => {
+
+        var content = this.state.contests.filter((value) => { return Date.parse(value.start) > Date.now() })
+        console.log(content);
+        this.setState({ contest: content })
+    }
+
+    pervious = () => {
+
+        var content = this.state.contests.filter((value) => { return Date.parse(value.end) < Date.now() })
+        console.log(content);
+        this.setState({ contest: content })
+    }
+    All = () => {
+
+        this.setState({ contest: this.state.contests })
+    }
+
     render() {
-      
+        if (this.state.isloading) {
+            return (<h1>loading</h1>)
+        }
         return (
+
             <Layout>
-                {this.state.contest.map(value => (
-                    <div class="card mb-3" style={{ maxWidth: "20rem" }}>
-                        <h3 class="card-header">{value.contestName}</h3>
-                        <div class="card-body">
-                            <h5 class="card-title">{value.game_id.name}</h5>
-                            <h6 class="card-subtitle text-muted">organiser:{value.organiser}</h6>
-                        </div>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="d-block user-select-none" width="100%" height="200" aria-label="Placeholder: Image cap" focusable="false" role="img" preserveAspectRatio="xMidYMid slice" viewBox="0 0 318 180" >
-                            <rect width="100%" height="100%" fill="#868e96"></rect>
-                            <text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text>
-                        </svg>
-                        <div class="card-body">
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Start date: {value.start}</li>
-                            <li class="list-group-item">End date : {value.end}</li>
-                            <li class="list-group-item">Reward : {value.reward}</li>
-                        </ul>
-                        <div class="card-body">
-                            <button type="button" class="btn btn-primary"  onClick={() => {
-        Router.push(`/tournament/${value.cid}`)
-      }}>Register</button>
-      {/* <Link href={`/tournament/[cid]`} as="/tournament/1">
-      <a>
-     Register
-     </a>
-      </Link> */}
-     
+                <Container fluid>
+                    <Row>
+                        <Col md={2}>
+                            <div>
+                                <hr />
+                                <Nav vertical className="list-unstyled pb-3">
+                                    <NavItem style={{ fontSize: "150%", color: "white" }}>
+                                        <NavLink style={{ color: "white" }} href="#"><BsController />  Games</NavLink>
+                                    </NavItem>
+                                    <NavItem style={{ fontSize: "150%" }}>
+                                        <NavLink style={{ color: "white" }} href="#"><BsFillPersonFill />   Players</NavLink>
+                                    </NavItem>
+                                    <Dropdown style={{ fontSize: "150%" }} nav isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+                                        <DropdownToggle nav caret style={{ color: "white" }}>
+                                            <BsTrophy />   Tournament
+                                        </DropdownToggle>
+                                        <DropdownMenu>
+                                            <DropdownItem onClick={this.All}> All</DropdownItem>
+                                            <DropdownItem onClick={this.live}> Live</DropdownItem>
+                                            <DropdownItem onClick={this.upcoming}> Upcoming</DropdownItem>
+                                            <DropdownItem onClick={this.pervious}> Pervious</DropdownItem>
+                                        </DropdownMenu>
+                                    </Dropdown>
+                                </Nav>
+                                <hr />
+                            </div>
+                        </Col>
+                        <Col md={10}>
+                            <div style={{ paddingTop: "2rem" }}>
+                                <CardColumns>
+                                    {this.state.contest.map(value => (
+                                        <Card>
+                                            <CardImg top width="100%" src="/assets/318x180.svg" alt="Card image cap" />
+                                            <CardBody>
+                                                <CardTitle tag="h5">{value.contestName}</CardTitle>
+                                                <CardSubtitle tag="h6" className="mb-2 text-muted">{value.game_id.name}</CardSubtitle>
+                                                <CardText>End date : {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(Date.parse(value.end))} <br /> Reward : {value.reward}.</CardText>
+                                                <Button type="button" color="primary" onClick={() => {
+                                                    Router.push(`/tournament/${value.cid}`)
+                                                }}>Register</Button>
+                                            </CardBody>
+                                        </Card>
 
-
-                        </div>
-                        <div class="card-footer text-muted">
-                            <p class="text-success"><strong>Live</strong></p>
-                        </div>
-                    </div>
-                ))}
+                                    ))}
+                                </CardColumns>
+                            </div>
+                        </Col>
+                    </Row>
+                </Container>
             </Layout>
-
 
         )
     }
