@@ -5,15 +5,16 @@ import Router from 'next/router';
 import Layout from "../components/Layout";
 import { GoogleLogin } from 'react-google-login';
 import { Button } from 'react-bootstrap';
-import { Container, Row, Col, Jumbotron, Card, CardBody } from "reactstrap";
+import { Container, Jumbotron, Alert  } from "reactstrap";
 
 export default class login extends Component {
     constructor() {
         super()
         this.state = {
             email: '',
-            password: ''
-
+            password: '',
+            alert: false,
+            alertMessage: ''
         }
     }
 
@@ -24,6 +25,7 @@ export default class login extends Component {
     }
 
     onChangePassword = (e) => {
+        if(e.target.value.length < 6)
         this.setState({
             password: e.target.value
         })
@@ -45,10 +47,14 @@ export default class login extends Component {
                     Router.push("/contest");
                 }
                 else
-                    alert('Email/ Password entered is not correct');
+                    this.setState({alert: true});
             })
             .catch(err => {
-                console.log(err);
+                if(err.response == null) {
+                    this.setState({alertMessage: "Could not connect with the server",alert: true});
+                } else {
+                    this.setState({alertMessage: err.response.data.err,alert: true});
+                }
             });
 
     }
@@ -81,20 +87,10 @@ export default class login extends Component {
                         console.log(err);
                     });
             }
-            axios.post('http://localhost:5000/gsignup', form)
-                .then(res => {
-                    console.log(res);
-                    Router.push("/");
-                })
-                .catch(err => {
-                    console.log(err);
-                });
         }
 
         return (
             <Layout>
-
-
                 <div>
                     <Jumbotron fluid>
                         <Container fluid>
@@ -107,6 +103,9 @@ export default class login extends Component {
                                 </GoogleLogin>
                                 <hr className="my-4"></hr>
                                 <form onSubmit={this.onSubmit}>
+                                    {this.state.alert && <Alert color="info">
+                                        {this.state.alertMessage}
+                                    </Alert>}
                                     <fieldset>
                                         <div className="form-group">
                                             <label htmlFor="exampleInputEmail1">Email address</label>
@@ -119,20 +118,19 @@ export default class login extends Component {
                                                 onChange={this.onChangePassword} required />
                                         </div>
                                         <div className="form-group">
-
                                             <Button variant="success" type="submit">Login</Button>
                                         </div>
-                                        <Link href="/signup"><a className="text-primary">Are you a new user?</a></Link>
+                                        <div className="cust-flex">
+                                            <Link href="/signup"><a className="text-primary">Are you a new user?</a></Link>
+                                            <Link href="/forgotPassword"><a className="text-primary">Forgot Password?</a></Link>
+                                        </div>
                                     </fieldset>
                                 </form>
                             </div>
                         </Container>
                     </Jumbotron>
                 </div>
-
-
             </Layout>
-
         )
     }
 }

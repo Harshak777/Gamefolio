@@ -32,9 +32,11 @@ const TopNavbar = (props) => {
               <NavLink href="/" style={{color:"white"}}>Dashboard</NavLink>
             </NavItem>
           </Nav>
-          <Link href="/login">
-            <NavbarText style={{color:"white"}}>Login/Signup</NavbarText>
-          </Link>
+          <Nav>
+          <NavItem>
+            <NavLink href="/login" style={{color:"white"}}>Login/Signup</NavLink>
+          </NavItem>
+          </Nav>
           </Collapse>
       </Navbar>
       </div>

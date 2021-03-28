@@ -78,3 +78,17 @@ a {
   padding: 20px 0;
   border-radius: 20px;
 }
+
+.class-red {
+  border: red 1px solid !important;
+}
+
+.bordered-input {
+  border: 5px solid black;
+}
+
+.cust-flex {
+  display: "flex";
+  flex-direction: row;
+  justify-content: flex-end;
+}

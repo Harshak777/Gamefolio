@@ -158,25 +158,47 @@ app.post('/login', async(req, res) => {
             },
             { attributes: ['password', 'uid'] }
         );
-
-        console.log("Users: "+ users.uid);
-
-        await bcrypt.compare(password, users.password, async (err, result) => {
-            if(result) {
-                const accessToken = await signAccessToken(users.uid);
-                return res.status(200).json({status: 'User found', accessToken});
-            } else {
-                console.log(users);
-                return res.json({err: 'Email/ Password entered is not correct'});
-            }
-        });
+        
+        if(users != null) {
+            await bcrypt.compare(password, users.password, async (err, result) => {
+                if(result) {
+                    const accessToken = await signAccessToken(users.uid);
+                    return res.status(200).json({status: 'User found', accessToken});
+                } else {
+                    return res.status(500).json({err: 'Email/ Password entered is not correct'});
+                }
+            });
+        } else {
+            return res.status(500).json({err: 'Email/ Password entered is not correct'});
+        }
 
     } catch (error) {
         console.log(error);
-        return res.status(500).json({err: 'Email entered is not correct'});
+        return res.status(500).json({err: "Could not connect with the server"});
     };
 });
 
+//Forgot Password
+app.post('/forgot-password', async(req, res) => {
+    const {email} = req.body;
+    try {   
+        const users = await user.findOne(
+            {
+            where: {email}
+            }
+        );
+        
+        if(users != null) {
+            return res.status(200).json({status: 'An Email has been sent to your registered email'});
+        } else {
+            return res.status(500).json({err: 'Email not found'});
+        }
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({err: "Could not connect with the server"});
+    };
+});
 
 
 //creating team
