@@ -1,4 +1,5 @@
 import Layout from '../components/Layout';
+import 'bootstrap/dist/css/bootstrap.css';
 
 const Home = () => (
   <Layout>
