@@ -41,6 +41,8 @@ module.exports = (sequelize, DataTypes) => {
     venue: DataTypes.STRING,
     start: DataTypes.DATE,
     end: DataTypes.DATE,
+    gameDay: DataTypes.DATE,
+    overview: DataTypes.STRING,
     gid: DataTypes.INTEGER
   }, {
     sequelize,

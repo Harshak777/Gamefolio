@@ -24,7 +24,8 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true
     },
     name: DataTypes.STRING,
-    rules: DataTypes.STRING,
+    rules: DataTypes.TEXT,
+    overview: DataTypes.STRING,
     platform: DataTypes.STRING
   }, {
     sequelize,

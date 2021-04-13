@@ -45,7 +45,7 @@ app.post('/signup', async(req, res) => {
             const hashedPassword = await bcrypt.hash(password, salt);
     
             const savedUser = await user.create({ name, email, password: hashedPassword });
-            const accessToken = await signAccessToken(savedUser.uid);
+            const accessToken = await signAccessToken(savedUser.uid, savedUser.name);
             return res.json({accessToken});
 
         } else {
@@ -84,11 +84,11 @@ app.post('/gsignup', async(req, res) => {
         if(users === null) {
 
             const guser = await user.create({ name, email,gtoken, verify });
-            const accessToken = await signAccessToken(guser.uid);
+            const accessToken = await signAccessToken(guser.uid, guser.name);
             return res.json({accessToken});
 
         } else {
-            const accessToken = await signAccessToken(users.uid);
+            const accessToken = await signAccessToken(users.uid, users.name);
             return res.json({accessToken});
         }
     } catch(err) {
@@ -162,7 +162,7 @@ app.post('/login', async(req, res) => {
         if(users != null) {
             await bcrypt.compare(password, users.password, async (err, result) => {
                 if(result) {
-                    const accessToken = await signAccessToken(users.uid);
+                    const accessToken = await signAccessToken(users.uid, users.name);
                     return res.status(200).json({status: 'User found', accessToken});
                 } else {
                     return res.status(500).json({err: 'Email/ Password entered is not correct'});

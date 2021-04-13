@@ -18,6 +18,12 @@ export default class login extends Component {
         }
     }
 
+    componentDidMount() {
+        if(localStorage.getItem('accessToken')!=null) {
+            Router.push('/contest');
+        }
+    }
+
     onChangeEmail = (e) => {
         this.setState({
             email: e.target.value

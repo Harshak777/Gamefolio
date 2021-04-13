@@ -1,18 +1,13 @@
 import React, { Component } from 'react'
-import Link from 'next/link';
 import axios from 'axios';
 import Router from 'next/router';
 import Layout from "../components/Layout";
-import Head from 'next/head';
-import { useRouter } from 'next/router'
 import {
     Nav, NavItem, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, NavLink, Container, Row, Col, Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle, Button, CardColumns, CardGroup
+    CardTitle, CardSubtitle, Button, CardColumns
 } from 'reactstrap';
 import { BsController, BsFillPersonFill, BsTrophy } from "react-icons/bs"
 
-
-// style={{maxWidth: "20rem"}}
 export default class contest extends Component {
 
     constructor() {
@@ -22,14 +17,30 @@ export default class contest extends Component {
             contest: [],
             contests: [],
             dropdownOpen: false,
-            isloading: true
-
+            isloading: true,
+            userName: ''
         };
     };
 
 
 
     componentWillMount() {
+
+        const temp = {accessToken: localStorage.getItem('accessToken')};
+        const name = localStorage.getItem('userName');
+        if(name!=null) {
+            this.setState({userName: res.data.decoded.name});
+        } else if(temp!=null) {
+            await axios.post('http://localhost:5000/jwtverify', temp)
+                        .then(res => {
+                            this.setState({userName: res.data.decoded.name});
+                            localStorage.setItem('userName', res.data.decoded.name);
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        });
+        }
+
         axios.get('http://localhost:5000/fetchcontests')
             .then(res => {
                 this.setState({ contest: res.data });
@@ -41,8 +52,6 @@ export default class contest extends Component {
                 console.log(err);
                 alert("No contest Found");
             });
-
-
     }
 
     toggle = () => {

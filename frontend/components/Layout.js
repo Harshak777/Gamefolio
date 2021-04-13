@@ -13,7 +13,7 @@ const Layout = (props) => (
     </Head>
     <div className="container-fluid main-canvas p-0 min-vh-100">
       <div className="inner-canvas">
-        <Navbar/>
+        <Navbar login={props.login}/>
         {props.children}
       </div>
     </div>

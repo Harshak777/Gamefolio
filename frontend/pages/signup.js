@@ -21,6 +21,12 @@ export default class signup extends Component {
         }
     }
 
+    componentDidMount() {
+        if(localStorage.getItem('accessToken')!=null) {
+            Router.push('/contest');
+        }
+    }
+
     onChangeName = (e) => {
         this.setState({
             name: e.target.value
@@ -171,7 +177,7 @@ export default class signup extends Component {
                                     </div>
                                     <div className="form-group cust-flex">
                                         <button type="submit" className="btn btn-primary">Register</button>
-                                        <Link href="/login"><a className="text-primary">Are you a new user?</a></Link>
+                                        <Link href="/login"><a className="text-primary">Already existing user?</a></Link>
                                     </div>
                                 </fieldset>
                             </form>

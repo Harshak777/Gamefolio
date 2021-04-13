@@ -2,10 +2,10 @@ const JWT = require('jsonwebtoken');
 const createError = require('http-errors');
 
 module.exports = {
-    signAccessToken: (uid) => {
+    signAccessToken: (uid, name) => {
         return new Promise((resolve, reject) => {
             const payload = {
-                uid
+                uid, name
             }
             const secret = "sorgavaasal";
             const options = {

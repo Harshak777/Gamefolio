@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Router from 'next/router';
 import React, { useState } from 'react';
 import {
   Collapse,
@@ -12,12 +12,19 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  NavbarText
 } from 'reactstrap';
+
 const TopNavbar = (props) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [islogin, setIslogin] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
+
+  console.log("log"+props.login)
+
+  const logoutUser = () => {
+    localStorage.clear();
+    Router.push("/");
+  }
+
   return (
     <div>
       <Navbar color="dark" light expand="md">
@@ -34,13 +41,29 @@ const TopNavbar = (props) => {
           </Nav>
           <Nav>
           <NavItem>
-            <NavLink href="/login" style={{color:"white"}}>Login/Signup</NavLink>
+            { props.login === '' && <NavLink href="/login" style={{color:"white"}}>Login/Signup</NavLink>}
+            { 
+            props.login != '' 
+            && 
+            <UncontrolledDropdown nav inNavbar>
+              <DropdownToggle nav caret>
+                {props.login}
+              </DropdownToggle>
+              <DropdownMenu right>
+                <DropdownItem>
+                  <NavLink onClick={logoutUser} style={{color:"white"}}>Logout</NavLink>
+                </DropdownItem>
+                <DropdownItem>
+                  <NavLink href="/profile" style={{color:"white"}}>profile</NavLink>
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+            }
           </NavItem>
           </Nav>
           </Collapse>
       </Navbar>
-      </div>
-
+    </div>
  )
 };
 

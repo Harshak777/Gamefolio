@@ -11,7 +11,25 @@ export default class forgetPassword extends Component {
         this.state = {
             email: '',
             alert: false,
-            alertMessage: ''
+            alertMessage: '',
+            userName: ''
+        }
+    }
+
+    componentDidMount() {
+        const temp = {accessToken: localStorage.getItem('accessToken')};
+        const name = localStorage.getItem('userName');
+        if(name!=null) {
+            this.setState({userName: res.data.decoded.name});
+        } else if(temp!=null) {
+            await axios.post('http://localhost:5000/jwtverify', temp)
+                        .then(res => {
+                            this.setState({userName: res.data.decoded.name});
+                            localStorage.setItem('userName', res.data.decoded.name);
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        });
         }
     }
 
@@ -44,7 +62,7 @@ export default class forgetPassword extends Component {
     }
     render() {
         return (
-            <Layout>
+            <Layout login={this.state.userName}>
                 <div>
                     <Jumbotron fluid>
                         <Container fluid>
