@@ -13,11 +13,11 @@ app.use(cors());
 
 //creating game
 app.post('/creategame', async(req, res) => {
-    const { name, rules, platform } = req.body;
+    const { name, rules, platform,overview } = req.body;
 
 
 try{
-   const insertinggameDetails= await game.create({ name, rules, platform });
+   const insertinggameDetails= await game.create({ name, rules, platform,overview });
 
     return res.json(insertinggameDetails);
 
@@ -102,10 +102,10 @@ app.post('/gsignup', async(req, res) => {
 
 //creating contest
 app.post('/createcontest',async(req,res) => {
-    const{contestName,organiser,reward,venue,start,end,gname}=req.body;
+    const{contestName,organiser,reward,venue,start,end,gname,overview}=req.body;
     try {
         const gameid=await game.findOne({where: {name:gname}});
-        const contestdetails=await contest.create({contestName,organiser,reward,venue,start,end,gid:gameid.gid});
+        const contestdetails=await contest.create({contestName,organiser,reward,overview,venue,start,end,gid:gameid.gid});
         return res.json(contestdetails);
     } catch (error) {
      console.log(error);
@@ -298,6 +298,15 @@ app.get('/users', async(req, res) => {
     }
 })
 
+app.get('/fetchgames', async(req, res) => {
+    try {
+        const allgame = await game.findAll()
+
+        return res.json(allgame);
+    } catch (error) {
+        return res.status(500).json({ error: 'Something went wrong' });
+    }
+})
 
 //server port
 app.listen({ port: 5000 }, async () => {

@@ -25,13 +25,16 @@ export default class contest extends Component {
 
 
     componentWillMount() {
-
+        
+        if (typeof window !== 'undefined') {
         const temp = {accessToken: localStorage.getItem('accessToken')};
+        }
         const name = localStorage.getItem('userName');
+        
         if(name!=null) {
             this.setState({userName: res.data.decoded.name});
         } else if(temp!=null) {
-            await axios.post('http://localhost:5000/jwtverify', temp)
+             axios.post('http://localhost:5000/jwtverify', temp)
                         .then(res => {
                             this.setState({userName: res.data.decoded.name});
                             localStorage.setItem('userName', res.data.decoded.name);
@@ -60,7 +63,7 @@ export default class contest extends Component {
 
     live = () => {
 
-        var content = this.state.contests.filter((value) => { return Date.parse(value.start) <= Date.now() && Date.parse(value.end) > Date.now() })
+        var content = this.state.contests.filter((value) => { return Date.parse(value.start) <= Date.now() && Date.parse(value.end) >= Date.now() })
         console.log(content);
         this.setState({ contest: content })
     }
