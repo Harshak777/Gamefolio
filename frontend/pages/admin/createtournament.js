@@ -41,7 +41,8 @@ class createTournament extends Component {
             venue:this.state.venue,
             start: this.state.startdate+ " "+this.state.starttime,
             end: this.state.enddate+ " "+this.state.endtime,
-            gname:this.state.gname
+            gname:this.state.gname,
+            gameday:this.state.gamedate
         }
         console.log(contest)
         axios.post('http://localhost:5000/createcontest', contest)

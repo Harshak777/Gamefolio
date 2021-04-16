@@ -101,11 +101,12 @@ app.post('/gsignup', async(req, res) => {
 
 
 //creating contest
+
 app.post('/createcontest',async(req,res) => {
-    const{contestName,organiser,reward,venue,start,end,gname,overview}=req.body;
+    const{contestName,organiser,reward,venue,start,end,gname,overview,gameday}=req.body;
     try {
         const gameid=await game.findOne({where: {name:gname}});
-        const contestdetails=await contest.create({contestName,organiser,reward,overview,venue,start,end,gid:gameid.gid});
+        const contestdetails=await contest.create({contestName,organiser,reward,overview,gameday,venue,start,end,gid:gameid.gid});
         return res.json(contestdetails);
     } catch (error) {
      console.log(error);
@@ -134,6 +135,7 @@ app.get('/fetchcontests' ,async(req,res)=>{
 })
 
 //fetching game
+
 app.get('/fetchcontest/:cid' ,async(req,res)=>{
     const cid=req.params.cid;
     console.log(cid);
@@ -146,7 +148,20 @@ app.get('/fetchcontest/:cid' ,async(req,res)=>{
     }
 })
 
+app.get('/fetchteam/:cid' ,async(req,res)=>{
+    const cid=req.params.cid;
+    console.log(cid);
+    try {
+        const gettingteamDetails= await participant.findAll({where : {cid}, include: [{model: team, as: 'team_id'},{model: user, as: 'user_id',attributes:["name"]}]});
+        return res.json(gettingteamDetails);
+    } catch (error) {
+        console.log(error);
+    return res.status(500).json(error);
+    }
+})
+
 //login
+
 app.post('/login', async(req, res) => {
     const {email, password} = req.body;
 
@@ -179,6 +194,8 @@ app.post('/login', async(req, res) => {
 });
 
 //Forgot Password
+
+
 app.post('/forgot-password', async(req, res) => {
     const {email} = req.body;
     try {   
@@ -218,6 +235,7 @@ app.post('/createteam',async(req , res ) => {
     }
 
 });
+
 
 
 //adding participant

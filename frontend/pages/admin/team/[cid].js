@@ -8,11 +8,30 @@ import Modal from 'react-bootstrap/Modal';
 const team = () => {
   const router = useRouter()
   const { cid } = router.query
- return(
-     <Layout>
-  <p>{cid}</p>
-     </Layout>
- );
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState([]);
+
+  useEffect(async () => {
+    if(isLoading)
+      await axios(
+        `http://localhost:5000/fetchteam/${cid}`
+      )           .then(result => {
+        const sorteddata= result.data.sort(function(a, b){return a.tid - b.tid});
+        setData(sorteddata)
+        setIsLoading(false)
+        console.log(sorteddata)
+    })
+    .catch(err => {
+        console.log(err);
+    });
+    
+   
+  });
+
+  return(
+    <p>loading</p>
+  )
  
 
 }
