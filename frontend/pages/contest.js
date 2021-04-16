@@ -24,16 +24,8 @@ export default class contest extends Component {
 
 
 
-<<<<<<< Updated upstream
     async componentWillMount() {
         const temp = localStorage.getItem('accessToken');
-=======
-    componentWillMount() {
-        
-        
-        const temp = {accessToken: localStorage.getItem('accessToken')};
-       
->>>>>>> Stashed changes
         const name = localStorage.getItem('userName');
         
         if(name!=null) {
