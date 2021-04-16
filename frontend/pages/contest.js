@@ -24,24 +24,26 @@ export default class contest extends Component {
 
 
 
-    componentWillMount() {
-        
-        if (typeof window !== 'undefined') {
-        const temp = {accessToken: localStorage.getItem('accessToken')};
-        }
+    async componentWillMount() {
+        const temp = localStorage.getItem('accessToken');
         const name = localStorage.getItem('userName');
         
         if(name!=null) {
-            this.setState({userName: res.data.decoded.name});
+            this.setState({userName: name});
         } else if(temp!=null) {
-             axios.post('http://localhost:5000/jwtverify', temp)
-                        .then(res => {
-                            this.setState({userName: res.data.decoded.name});
-                            localStorage.setItem('userName', res.data.decoded.name);
-                        })
-                        .catch(err => {
-                            console.log(err);
-                        });
+            try {
+                
+                await axios.post('http://localhost:5000/jwtverify', temp)
+                            .then(res => {
+                                this.setState({userName: res.data.decoded.name});
+                                localStorage.setItem('userName', res.data.decoded.name);
+                            })
+                            .catch(err => {
+                                console.log(err);
+                            });
+            } catch (error) {
+                console.error(error);
+            }
         }
 
         axios.get('http://localhost:5000/fetchcontests')
@@ -92,7 +94,7 @@ export default class contest extends Component {
         }
         return (
 
-            <Layout>
+            <Layout login={this.state.userName}>
                 <Container fluid>
                     <Row>
                         <Col md={2}>

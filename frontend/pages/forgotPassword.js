@@ -16,20 +16,25 @@ export default class forgetPassword extends Component {
         }
     }
 
-    componentDidMount() {
-        const temp = {accessToken: localStorage.getItem('accessToken')};
+    async componentDidMount() {
+        const temp = localStorage.getItem('accessToken');
         const name = localStorage.getItem('userName');
         if(name!=null) {
             this.setState({userName: res.data.decoded.name});
         } else if(temp!=null) {
-            await axios.post('http://localhost:5000/jwtverify', temp)
-                        .then(res => {
-                            this.setState({userName: res.data.decoded.name});
-                            localStorage.setItem('userName', res.data.decoded.name);
-                        })
-                        .catch(err => {
-                            console.log(err);
-                        });
+            try {
+                
+                await axios.post('http://localhost:5000/jwtverify', temp)
+                            .then(res => {
+                                this.setState({userName: res.data.decoded.name});
+                                localStorage.setItem('userName', res.data.decoded.name);
+                            })
+                            .catch(err => {
+                                console.log(err);
+                            });
+            } catch (error) {
+                console.error(error);
+            }
         }
     }
 

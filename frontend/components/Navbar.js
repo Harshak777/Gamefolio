@@ -41,9 +41,9 @@ const TopNavbar = (props) => {
           </Nav>
           <Nav>
           <NavItem>
-            { props.login === '' && <NavLink href="/login" style={{color:"white"}}>Login/Signup</NavLink>}
+            { props.login === '' || props.login == null && <NavLink href="/login" style={{color:"white"}}>Login/Signup</NavLink>}
             { 
-            props.login != '' 
+            props.login != '' && props.login != null
             && 
             <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>
