@@ -31,7 +31,6 @@ export default class login extends Component {
     }
 
     onChangePassword = (e) => {
-        if(e.target.value.length < 6)
         this.setState({
             password: e.target.value
         })

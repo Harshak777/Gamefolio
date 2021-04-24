@@ -25,7 +25,7 @@ export default class contest extends Component {
 
 
     async componentWillMount() {
-        const temp = localStorage.getItem('accessToken');
+        const temp = {"accessToken": localStorage.getItem('accessToken')};
         const name = localStorage.getItem('userName');
         
         if(name!=null) {
@@ -131,7 +131,7 @@ export default class contest extends Component {
                                             <CardBody>
                                                 <CardTitle tag="h5">{value.contestName}</CardTitle>
                                                 <CardSubtitle tag="h6" className="mb-2 text-muted">{value.game_id.name}</CardSubtitle>
-                                                <CardText>End date : {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(Date.parse(value.end))} <br /> Reward : {value.reward}.</CardText>
+                                                <CardText>End date : {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(Date.parse(value.end))} <br /> Reward : {value.reward}.</CardText>
                                                 <Button type="button" color="primary" onClick={() => {
                                                     Router.push(`/tournament/${value.cid}`)
                                                 }}>Register</Button>

@@ -18,16 +18,16 @@ const TopNavbar = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
-  console.log("log"+props.login)
+  console.log("log"+ props.login)
 
   const logoutUser = () => {
     localStorage.clear();
-    Router.push("/");
+    window.location.replace('/');
   }
 
   return (
     <div>
-      <Navbar color="dark" light expand="md">
+      <Navbar color="dark" dark expand="md">
         <NavbarBrand href="/" style={{color:"white"}}>Gamefolio</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
@@ -41,9 +41,10 @@ const TopNavbar = (props) => {
           </Nav>
           <Nav>
           <NavItem>
-            { props.login === '' || props.login == null && <NavLink href="/login" style={{color:"white"}}>Login/Signup</NavLink>}
+
+            { (props.login == '' || props.login == null) && <NavLink href="/login" style={{color:"white"}}>Login/Signup</NavLink>}
             { 
-            props.login != '' && props.login != null
+            (props.login != '' && props.login != null)
             && 
             <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>

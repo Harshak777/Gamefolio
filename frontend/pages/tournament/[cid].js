@@ -10,9 +10,9 @@ const tournament = () => {
   const { cid } = router.query
 
   const [data, setData] = useState({});
-  console.log(cid);
   const [isLoading, setIsLoading] = useState(true);
   const [lgShow, setLgShow] = useState(false);
+  const [teamShow, setTeamShow] = useState(false);
   const [field, setField] = useState({
     team: '',
     ref: '',
@@ -21,6 +21,10 @@ const tournament = () => {
   });
 
 const [userName, setUserName] = useState('');
+const [uid, setUid] = useState(0);
+const [isRegistered, setIsRegistered] = useState(false);
+const [tid, setTid] = useState(0);
+const [teamMem, setTeamMem] = useState([]);
 
 useEffect(async () => {
   const temp = {accessToken: localStorage.getItem('accessToken')};
@@ -32,12 +36,66 @@ useEffect(async () => {
                 .then(res => {
                     setUserName(res.data.decoded.name);
                     localStorage.setItem('userName', res.data.decoded.name);
+                    setUid(res.data.decoded.uid);
                 })
                 .catch(err => {
                     console.log(err);
                 });
   }
 });
+
+useEffect(async () => {
+  const temp = {accessToken: localStorage.getItem('accessToken')};
+    await axios.post('http://localhost:5000/jwtverify', temp)
+                .then(res => {
+                  if(res.data!=null)
+                    setUid(res.data.decoded.uid);
+                    console.log("Finishd calling");
+                    getTeamID();
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+});
+              
+const getTeamID = async () => {
+  const temp1 = {
+    uid,
+    cid
+  }
+  await axios.post('http://localhost:5000/getTeamId', temp1)
+              .then(res => {
+                  if(res.data!=null)
+                  setTid(res.data);
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+
+};
+
+useEffect(() => {
+
+  const fetchTeamData = async () => {
+    const temp = {
+      cid,
+      tid
+    }
+    await axios.post('http://localhost:5000/getTeamMembers', temp)
+                .then(res => {
+                  console.log('Fetching Team Data');
+                  setTeamMem(res.data);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+  }
+
+  if(tid!=0) {   
+    fetchTeamData();
+  }
+
+}, [tid]);
 
   useEffect(() => {
 
@@ -68,7 +126,8 @@ useEffect(async () => {
                 })
                 .catch(err => {
                     console.log(err);
-                }); 
+                });
+     
     const form = {
       cid,
       name: field["team"],
@@ -131,56 +190,111 @@ useEffect(async () => {
     } else {
       setLgShow(true);
     }
-
   }
 
-  function Example() {
-  
+  function teamHelper() {
+      setTeamShow(true);
+  }
+
+function TeamDetails() {
+  if(teamMem.length != 0) {
+    console.log("if");
+    console.log("inside", teamMem);
+    return  (
+      <table className="table">
+                <thead>
+                  <tr>
+                    <th scope="col">User Name</th>
+                    <th scope="col">Ingame Handle</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {teamMem.map((teamMate) => (
+                      <tr>
+                        <td>{teamMate.user_id.name}</td>
+                        <td>{teamMate.ingame_id}</td>
+                      </tr>
+                  ))
+                    }
+                </tbody>
+              </table>    
+  )            
+  } else {
+    console.log("else");
     return (
-      <>
-       
-        <div className="m-btn" onClick={registerHelper}><span>Join Now</span></div>
+      <table className="table">
+        <thead>
+          <tr>
+            <th scope="col">User Name</th>
+            <th scope="col">Ingame Handle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>You dont have a team</td>
+            <td>@mdo</td>
+          </tr>
+        </tbody>
+      </table> 
+    )
+  }
+}
+
+  function Example() {  
+    return (
+      <> 
+        {tid == 0 ? <div className="m-btn" onClick={registerHelper}><span>Join Now</span></div> : <div className="m-btn" onClick={teamHelper}><span>Show Team</span></div>}
         <Modal  size="lg"show={lgShow} onHide={() => setLgShow(false)} aria-labelledby="example-modal-sizes-title-lg">
           <Modal.Header closeButton >
             <Modal.Title id="example-modal-sizes-title-lg">Join // Create Team</Modal.Title>
           </Modal.Header>
           <Modal.Body >
-          <div className="container">
-          <div className="row">
-            <div className="col">
-              <h2>New Team</h2>
-              <small id="emailHelp" className="form-text text-muted">Create a New team</small>
-            <form method="POST" onSubmit={submit}>
-              <div className="form-group">
-                <label>Team Name</label>
-                <input type="text" className="form-control" id="teamName" placeholder="Enter your Team name" name="team" onChange={handleChange}/>
+            <div className="container">
+              <div className="row">
+                <div className="col">
+                  <h2>New Team</h2>
+                  <small id="emailHelp" className="form-text text-muted">Create a New team</small>
+                <form method="POST" onSubmit={submit}>
+                  <div className="form-group">
+                    <label>Team Name</label>
+                    <input type="text" className="form-control" id="teamName" placeholder="Enter your Team name" name="team" onChange={handleChange}/>
+                  </div>
+                  <div className="form-group">
+                    <label>Ingame ID</label>
+                    <input type="text" className="form-control" id="ingameID" placeholder="Ingame ID" name="ingameID1" onChange={handleChange}/>
+                  </div>
+                  <button type="submit" className="btn btn-primary">Create</button>
+                </form>
+                </div>
+                <div className="col">
+                <h2>Already Team</h2>
+                <small id="emailHelp" className="form-text text-muted">Join your team with your team referal code</small>
+                <form method="POST" onSubmit={submitWR}>
+                  <div className="form-group">
+                    <label >Referal code</label>
+                    <input type="text" className="form-control" id="referalCode" placeholder="Enter Referal Code" name="ref" onChange={handleChange}/>
+                  </div>
+                  <div className="form-group">
+                    <label >Ingame ID</label>
+                    <input type="text" className="form-control" id="ingameID" placeholder="Ingame ID" name="ingameID2" onChange={handleChange}/>
+                  </div>
+                  <button type="submit" className="btn btn-primary">Join</button>
+                </form>
+                </div>
               </div>
-              <div className="form-group">
-                <label>Ingame ID</label>
-                <input type="text" className="form-control" id="ingameID" placeholder="Ingame ID" name="ingameID1" onChange={handleChange}/>
-              </div>
-              <button type="submit" className="btn btn-primary">Create</button>
-            </form>
             </div>
-            <div className="col">
-            <h2>Already Team</h2>
-            <small id="emailHelp" className="form-text text-muted">Join your team with your team referal code</small>
-            <form method="POST" onSubmit={submitWR}>
-              <div className="form-group">
-                <label >Referal code</label>
-                <input type="text" className="form-control" id="referalCode" placeholder="Enter Referal Code" name="ref" onChange={handleChange}/>
-              </div>
-              <div className="form-group">
-                <label >Ingame ID</label>
-                <input type="text" className="form-control" id="ingameID" placeholder="Ingame ID" name="ingameID2" onChange={handleChange}/>
-              </div>
-              <button type="submit" className="btn btn-primary">Join</button>
-            </form>
+          </Modal.Body>        
+        </Modal>
+        <Modal  size="lg"show={teamShow} onHide={() => setTeamShow(false)} aria-labelledby="example-modal-sizes-title-lg">
+          <Modal.Header closeButton >
+            <Modal.Title id="example-modal-sizes-title-lg">Team Info</Modal.Title>
+          </Modal.Header>
+          <Modal.Body >
+            <div className="container">
+              Team Members:
+                  <TeamDetails />
             </div>
-          </div>
-        </div>
-          </Modal.Body>
-        
+          </Modal.Body>        
         </Modal>
       </>
     );
@@ -243,8 +357,8 @@ else{
                         <div className="tb" id="p-tabs-m">
                             <div className="td  "><span>Registered:2000</span></div>
                             <div className="td "><span>Team Size:4-5</span></div>
-                            <div className="td "><div id="title">Start Date</div><span>{data.start}</span></div>
-                            <div className="td "><div id="title">End Date</div><span> {data.end}</span></div>
+                            <div className="td "><div id="title">Start Date</div><span>{new Intl.DateTimeFormat('en-US', {  month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(Date.parse(data.start))}</span></div>
+                            <div className="td "><div id="title">End Date</div><span> {new Intl.DateTimeFormat('en-US', {  month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(Date.parse(data.end))}</span></div>
                             <div className="td "><div id="title">Game day</div><span> Apr 07 12:00 PM </span></div>
                         </div>
                     </div>

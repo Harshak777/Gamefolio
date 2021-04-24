@@ -264,6 +264,39 @@ app.post('/addparticipant',async(req , res ) => {
 
 });
 
+app.post('/getTeamId', async(req, res) => {
+    const {cid, uid} = req.body;
+
+    try {
+        const participantdetails = await participant.findOne(
+            {
+            where: {cid: cid, uid: uid}
+            }
+        );
+        return res.json(participantdetails.dataValues.tid);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json(error);
+    }
+});
+
+app.post('/getTeamMembers', async(req, res) => {
+    const {cid, tid} = req.body;
+
+    try {
+        const participantdetails = await participant.findAll(
+            {
+            where: {cid: cid, tid: tid},
+            include: [{model: team, as: 'team_id'},{model: user, as: 'user_id',attributes:["name"]}]
+            }
+        );
+        return res.json(participantdetails);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json(error);
+    }
+});
+
 app.post('/addparticipantwr',async(req , res ) => {
     const {cid,uid,ingame_id, ref} = req.body;
    
@@ -301,10 +334,6 @@ app.post('/addwinner',async(req , res ) => {
     }
 
 });
-
-
-
-
 
 app.get('/users', async(req, res) => {
     try {
