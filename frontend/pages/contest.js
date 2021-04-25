@@ -98,6 +98,7 @@ export default class contest extends Component {
                 <Container fluid>
                     <Row>
                         <Col md={2}>
+                        <div className="animate-right">
                             <div>
                                 <hr />
                                 <Nav vertical className="list-unstyled pb-3">
@@ -121,27 +122,38 @@ export default class contest extends Component {
                                 </Nav>
                                 <hr />
                             </div>
-                        </Col>
-                        <Col md={10}>
-                            <div style={{ paddingTop: "2rem" }}>
-                                <CardColumns>
-                                    {this.state.contest.map(value => (
-                                        <Card>
-                                            <CardImg top width="100%" src="/assets/318x180.svg" alt="Card image cap" />
-                                            <CardBody>
-                                                <CardTitle tag="h5">{value.contestName}</CardTitle>
-                                                <CardSubtitle tag="h6" className="mb-2 text-muted">{value.game_id.name}</CardSubtitle>
-                                                <CardText>End date : {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(Date.parse(value.end))} <br /> Reward : {value.reward}.</CardText>
-                                                <Button type="button" color="primary" onClick={() => {
-                                                    Router.push(`/tournament/${value.cid}`)
-                                                }}>Register</Button>
-                                            </CardBody>
-                                        </Card>
-
-                                    ))}
-                                </CardColumns>
                             </div>
                         </Col>
+                        <div className="animate-bottom">
+                        <Col md={20}>
+                        
+                        <div style={{ paddingTop: "2rem" }}>
+                            <CardColumns>
+                                {this.state.contest.map(value => (
+                                    <Card>
+                                        <CardImg top width="100%" src="/assets/318x180.svg" alt="Card image cap" />
+                                        <CardBody>
+                                            <CardTitle tag="h5">{value.contestName}</CardTitle>
+                                            <CardSubtitle tag="h6" className="mb-2 text-muted">{value.game_id.name}</CardSubtitle>
+                                            <CardText>End date : {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(Date.parse(value.end))} <br /> Reward : {value.reward}.</CardText>
+                                            <Button type="button" color="primary" onClick={() => {
+                                                Router.push(`/tournament/${value.cid}`)
+                                            }}>Register</Button>
+                                        </CardBody>
+                                    </Card>
+
+                                ))}
+                            </CardColumns>
+                        </div>
+                        
+                    </Col>
+
+                  
+                    </div>
+                    
+
+                  
+                        
                     </Row>
                 </Container>
             </Layout>

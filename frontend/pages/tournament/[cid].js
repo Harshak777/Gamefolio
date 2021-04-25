@@ -246,7 +246,7 @@ function TeamDetails() {
         {tid == 0 ? <div className="m-btn" onClick={registerHelper}><span>Join Now</span></div> : <div className="m-btn" onClick={teamHelper}><span>Show Team</span></div>}
         <Modal  size="lg"show={lgShow} onHide={() => setLgShow(false)} aria-labelledby="example-modal-sizes-title-lg">
           <Modal.Header closeButton >
-            <Modal.Title id="example-modal-sizes-title-lg">Join // Create Team</Modal.Title>
+            <Modal.Title id="example-modal-sizes-title-lg">Create/Join Team</Modal.Title>
           </Modal.Header>
           <Modal.Body >
             <div className="container">
@@ -267,7 +267,7 @@ function TeamDetails() {
                 </form>
                 </div>
                 <div className="col">
-                <h2>Already Team</h2>
+                <h2>Join Team</h2>
                 <small id="emailHelp" className="form-text text-muted">Join your team with your team referal code</small>
                 <form method="POST" onSubmit={submitWR}>
                   <div className="form-group">
@@ -306,6 +306,7 @@ else{
   return (
     <Layout login={userName}>
       <main>
+      <div id="myDiv" class="animate-bottom">
       <div id="profile-upper">
     <div id="profile-banner-image">
         <img src="https://wallpaperaccess.com/full/3626476.jpg" alt="Banner image"/>
@@ -329,37 +330,39 @@ else{
 
 
     </div>
+    </div>
     <div id="main-content">
     <div className="tb">
         <div className="td" id="l-col">                   
             <div className="l-cnt">
                 <div className="cnt-label">
                     
-                    <span>Overview</span>
+                    <span id="spi">Overview</span>
                     
                 </div>
                 <div id="i-box">
-                    <div id="u-occ"><a href="#go">Game Info</a></div>
-                    <div id="u-occ"><a href="#co">Contest Info</a></div>
+                    <div id="u-occ"><a href="#go">Game Overview</a></div>
+                    <div id="u-occ"><a href="#co">Contest Overview</a></div>
                     <div id="u-occ"><a href="#rules">Rules</a></div>
-                    <div id="u-occ"><a href="#rules">Prizes</a></div>
-                    <div id="u-occ"><a href="#rules">Winners</a></div>
+                    <div id="u-occ"><a href="#prizes">Prizes</a></div>
+                    <div id="u-occ"><a href="#winners">Winners</a></div>
 
                 </div>
             </div>
            
         </div>
+        <div class="animate-right">
         <div className="td" id="m-col">
             <div className="m-mrg" id="p-tabs">
 
                 <div className="tb">
                     <div className="td">
                         <div className="tb" id="p-tabs-m">
-                            <div className="td  "><span>Registered:2000</span></div>
-                            <div className="td "><span>Team Size:4-5</span></div>
-                            <div className="td "><div id="title">Start Date</div><span>{new Intl.DateTimeFormat('en-US', {  month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(Date.parse(data.start))}</span></div>
-                            <div className="td "><div id="title">End Date</div><span> {new Intl.DateTimeFormat('en-US', {  month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(Date.parse(data.end))}</span></div>
-                            <div className="td "><div id="title">Game day</div><span> Apr 07 12:00 PM </span></div>
+                            <div className="td  "><div id="title">Registered:2000</div></div>
+                            <div className="td "><div id="title">Team Size:4-5</div></div>
+                            <div className="td "><div id="title"><div>Start Date</div>{new Intl.DateTimeFormat('en-US', {  month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(Date.parse(data.start))}</div></div>
+                            <div className="td "><div id="title"><div>End Date</div> {new Intl.DateTimeFormat('en-US', {  month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(Date.parse(data.end))}</div></div>
+                            <div className="td "><div id="title"><div>Game day</div> Apr 07 12:00 PM </div></div>
                         </div>
                     </div>
                  
@@ -372,11 +375,11 @@ else{
                               <div className="Overview">
                                 <div className="Game_Overview" id="go">
                                   <h5>Game Overview</h5>
-                                  <span>PlayerUnknown's Battlegrounds (PUBG) is an online multiplayer battle royale game developed and published by PUBG Corporation, a subsidiary of South Korean video game company Bluehole.</span>
+                                  <span id="ovr">PlayerUnknown's Battlegrounds (PUBG) is an online multiplayer battle royale game developed and published by PUBG Corporation, a subsidiary of South Korean video game company Bluehole.</span>
                                 </div>
                                 <div className="Contest_Overview" id="co">
                                   <h5>Contest Overview</h5>
-                                  <span>Contest conducted by {data.organiser}.</span>
+                                  <span id="ovr">Contest conducted by {data.organiser}.</span>
 
                                 </div>
                               </div>
@@ -384,26 +387,26 @@ else{
                               <div className="Rules" id="rules">
                                 <h5>Rules</h5>
                                 
-                                <span>{data.game_id.rules}</span>
+                                <span id="ovr">{data.game_id.rules}</span>
                                 
 
                               </div>
                               
                               <div className="Prizes" id="prizes">
                                 <h5>Prizes</h5>
-                                <span>{data.reward}</span>
+                                <span id="ovr">{data.reward}</span>
 
                               </div>
                               <div className="Winners" id="winners">
                                 <h5>Winners</h5>
-                                <span>Not yet declared</span>
+                                <span id="ovr">Not yet declared</span>
 
                               </div>
                                 
                             </div>
                             </div>
         </div>
-        
+        </div>
                             
                         
                     
