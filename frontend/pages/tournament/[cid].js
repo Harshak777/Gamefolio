@@ -24,6 +24,7 @@ const [userName, setUserName] = useState('');
 const [uid, setUid] = useState(0);
 const [isRegistered, setIsRegistered] = useState(false);
 const [tid, setTid] = useState(0);
+const [pid, setPid] = useState(0);
 const [teamMem, setTeamMem] = useState([]);
 
 useEffect(async () => {
@@ -66,7 +67,8 @@ const getTeamID = async () => {
   await axios.post('http://localhost:5000/getTeamId', temp1)
               .then(res => {
                   if(res.data!=null)
-                  setTid(res.data);
+                  setTid(res.data.tid);
+                  setPid(res.data.pid);
               })
               .catch(err => {
                   console.log(err);
@@ -91,7 +93,7 @@ useEffect(() => {
                 });
   }
 
-  if(tid!=0) {   
+  if(tid != null || 0) {   
     fetchTeamData();
   }
 
@@ -122,7 +124,6 @@ useEffect(() => {
                 .then(res => {
                     console.log(res.data.decoded.uid);
                     uid=res.data.decoded.uid;
-                    alert(res.request.statusText);
                 })
                 .catch(err => {
                     console.log(err);
@@ -139,6 +140,7 @@ useEffect(() => {
                 .then(res => {
                     console.log(res);
                     alert(res.data.ref);
+                    setLgShow(false);
                 })
                 .catch(err => {
                     console.log(err);
@@ -153,7 +155,6 @@ useEffect(() => {
                 .then(res => {
                     console.log(res.data.decoded.uid);
                     uid=res.data.decoded.uid;
-                    alert(res.request.statusText);
                 })
                 .catch(err => {
                     console.log(err);
@@ -170,9 +171,12 @@ useEffect(() => {
                 .then(res => {
                     console.log(res);
                     alert(res.request.statusText);
+                    setLgShow(false);
                 })
                 .catch(err => {
                     console.log(err);
+                    alert(err.response.data.message);
+                    setLgShow(false);
                 });
   }
 
@@ -195,6 +199,23 @@ useEffect(() => {
   function teamHelper() {
       setTeamShow(true);
   }
+
+async function leaveTeamHelper() {
+  const form = {
+    pid,
+    tid
+  };
+
+  await axios.post('http://localhost:5000/leave-team', form)
+              .then(res => {
+                  console.log(res);
+                  alert("You left the team");
+                  setTeamShow(false);
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+}
 
 function TeamDetails() {
   if(teamMem.length != 0) {
@@ -243,7 +264,7 @@ function TeamDetails() {
   function Example() {  
     return (
       <> 
-        {tid == 0 ? <div className="m-btn" onClick={registerHelper}><span>Join Now</span></div> : <div className="m-btn" onClick={teamHelper}><span>Show Team</span></div>}
+        {Date.parse(data.end) >= Date.now() ? (tid == null || 0 ? <div className="m-btn btn-success" onClick={registerHelper} ><span>Join Now</span></div> : <div className="m-btn btn-success" onClick={teamHelper} ><span>Show Team</span></div>):<div hidden></div>}
         <Modal  size="lg"show={lgShow} onHide={() => setLgShow(false)} aria-labelledby="example-modal-sizes-title-lg">
           <Modal.Header closeButton >
             <Modal.Title id="example-modal-sizes-title-lg">Create/Join Team</Modal.Title>
@@ -293,6 +314,7 @@ function TeamDetails() {
             <div className="container">
               Team Members:
                   <TeamDetails />
+                  <div className="btn btn-danger" onClick={leaveTeamHelper} ><span>Leave Team</span></div>
             </div>
           </Modal.Body>        
         </Modal>
@@ -306,7 +328,7 @@ else{
   return (
     <Layout login={userName}>
       <main>
-      <div id="myDiv" class="animate-bottom">
+      <div id="myDiv" className="animate-bottom">
       <div id="profile-upper">
     <div id="profile-banner-image">
         <img src="https://wallpaperaccess.com/full/3626476.jpg" alt="Banner image"/>
@@ -351,7 +373,7 @@ else{
             </div>
            
         </div>
-        <div class="animate-right">
+        <div className="animate-right">
         <div className="td" id="m-col">
             <div className="m-mrg" id="p-tabs">
 

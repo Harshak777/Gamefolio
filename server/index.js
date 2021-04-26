@@ -219,7 +219,6 @@ app.post('/forgot-password', async(req, res) => {
 
 
 //creating team
-
 app.post('/createteam',async(req , res ) => {
     const { name} = req.body;
   var referral= crypto.randomBytes(8).toString('hex');
@@ -233,10 +232,7 @@ app.post('/createteam',async(req , res ) => {
         return res.status(500).json(error);
         
     }
-
 });
-
-
 
 //adding participant
 app.post('/addparticipant',async(req , res ) => {
@@ -261,7 +257,6 @@ app.post('/addparticipant',async(req , res ) => {
         return res.status(500).json(error);
         
     }
-
 });
 
 app.post('/getTeamId', async(req, res) => {
@@ -273,7 +268,59 @@ app.post('/getTeamId', async(req, res) => {
             where: {cid: cid, uid: uid}
             }
         );
-        return res.json(participantdetails.dataValues.tid);
+        if(participantdetails !=null)
+        return res.json({tid: participantdetails.dataValues.tid, pid: participantdetails.dataValues.id});
+        else
+        return res.json({});
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json(error);
+    }
+});
+
+app.post('/leave-team', async(req, res) => {
+    const {pid, tid} = req.body;
+
+    try {
+        await participant.destroy({
+            where: {
+                id: pid
+            }
+        })
+        .then(async function (deletedRecord) {
+            if(deletedRecord === 1){
+                
+                const participantdetails = await participant.findAll(
+                    {
+                    where: {tid: tid}
+                    }
+                );
+                console.log(participantdetails.length);
+                if(participantdetails.length == 0) {
+                    await team.destroy({
+                        where: {
+                            tid: tid
+                        }
+                    })
+                    .then((Record) => {
+                        if(Record === 1){
+                        res.status(200).json({message:"Deleted successfully"});
+                        } else
+                            {
+                                res.status(404).json({message:"record not found"})
+                            }
+                    })
+                }
+                res.status(200).json({message:"Deleted successfully"});
+            }
+            else
+            {
+                res.status(404).json({message:"record not found"})
+            }
+        })
+        .catch(function (error){
+            res.status(500).json(error);
+        });
     } catch (error) {
         console.log(error);
         return res.status(500).json(error);
@@ -307,9 +354,13 @@ app.post('/addparticipantwr',async(req , res ) => {
             },
             { attributes: ['tid'] }
         );
-
-        const participantdetails = await participant.create({ cid,tid: teamId.tid,uid,ingame_id });   
-        return res.json(participantdetails);    
+        
+        if(teamId != null) {
+        const participantdetails = await participant.create({ cid, tid: teamId.tid, uid, ingame_id });   
+        return res.json(participantdetails); 
+        } else {
+            return res.status(404).json({message:"Reference seems to be invalid"});
+        }
  
     } catch (error) {
         console.log(error);

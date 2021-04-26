@@ -31,7 +31,6 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true
      },
     referral: {
       type: DataTypes.STRING,
