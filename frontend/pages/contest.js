@@ -90,7 +90,7 @@ export default class contest extends Component {
 
     render() {
         if (this.state.isloading) {
-            return (<h1>loading</h1>)
+            return (<div class="loader"></div>)
         }
         return (
 
@@ -124,9 +124,9 @@ export default class contest extends Component {
                             </div>
                             </div>
                         </Col>
+                       
+                        <Col md={10}>
                         <div className="animate-bottom">
-                        <Col md={20}>
-                        
                         <div style={{ paddingTop: "2rem" }}>
                             <CardColumns>
                                 {this.state.contest.map(value => (
@@ -145,11 +145,13 @@ export default class contest extends Component {
                                 ))}
                             </CardColumns>
                         </div>
-                        
+                        </div>
                     </Col>
+                         
+                    
 
                   
-                    </div>
+                   
                     
 
                   

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import Router from 'next/router';
 import Modal from 'react-bootstrap/Modal';
+import {Button} from 'reactstrap';
 
 const tournament = () => {
   const router = useRouter()
@@ -264,7 +265,11 @@ function TeamDetails() {
   function Example() {  
     return (
       <> 
-        {Date.parse(data.end) >= Date.now() ? (tid == null || 0 ? <div className="m-btn btn-success" onClick={registerHelper} ><span>Join Now</span></div> : <div className="m-btn btn-success" onClick={teamHelper} ><span>Show Team</span></div>):<div hidden></div>}
+
+        {Date.parse(data.end) >= Date.now() ? (tid == null || 0 ? <div className="m-btn btn-success" color="primary" onClick={registerHelper} ><span>Join Now</span></div> : <div className="m-btn btn-success" color="primary" onClick={teamHelper} ><span>Show Team</span></div>):<div hidden></div>}
+
+       
+
         <Modal  size="lg"show={lgShow} onHide={() => setLgShow(false)} aria-labelledby="example-modal-sizes-title-lg">
           <Modal.Header closeButton >
             <Modal.Title id="example-modal-sizes-title-lg">Create/Join Team</Modal.Title>
