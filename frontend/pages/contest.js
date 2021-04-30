@@ -22,9 +22,7 @@ export default class contest extends Component {
         };
     };
 
-
-
-    async componentWillMount() {
+    async componentDidMount() {
         const temp = {"accessToken": localStorage.getItem('accessToken')};
         const name = localStorage.getItem('userName');
         

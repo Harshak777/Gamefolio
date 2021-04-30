@@ -24,21 +24,20 @@ const tournament = () => {
 const [userName, setUserName] = useState('');
 const [uid, setUid] = useState(0);
 const [isRegistered, setIsRegistered] = useState(false);
-const [tid, setTid] = useState(0);
+const [tid, setTid] = useState(null);
 const [pid, setPid] = useState(0);
 const [teamMem, setTeamMem] = useState([]);
 
 useEffect(async () => {
   const temp = {accessToken: localStorage.getItem('accessToken')};
-  const name = localStorage.getItem('userName');
-  if(name!=null) {
-    setUserName(name);
-  } else if(temp!=null) {
+
+  if(temp!=null) {
     await axios.post('http://localhost:5000/jwtverify', temp)
                 .then(res => {
                     setUserName(res.data.decoded.name);
                     localStorage.setItem('userName', res.data.decoded.name);
                     setUid(res.data.decoded.uid);
+                    getTeamID();
                 })
                 .catch(err => {
                     console.log(err);
@@ -46,19 +45,19 @@ useEffect(async () => {
   }
 });
 
-useEffect(async () => {
-  const temp = {accessToken: localStorage.getItem('accessToken')};
-    await axios.post('http://localhost:5000/jwtverify', temp)
-                .then(res => {
-                  if(res.data!=null)
-                    setUid(res.data.decoded.uid);
-                    console.log("Finishd calling");
-                    getTeamID();
-                })
-                .catch(err => {
-                    console.log(err);
-                });
-});
+// useEffect(async () => {
+//   const temp = {accessToken: localStorage.getItem('accessToken')};
+//     await axios.post('http://localhost:5000/jwtverify', temp)
+//                 .then(res => {
+//                   if(res.data!=null)
+//                     setUid(res.data.decoded.uid);
+//                     console.log("Finishd calling");
+                    
+//                 })
+//                 .catch(err => {
+//                     console.log(err);
+//                 });
+// });
               
 const getTeamID = async () => {
   const temp1 = {
@@ -211,6 +210,7 @@ async function leaveTeamHelper() {
               .then(res => {
                   console.log(res);
                   alert("You left the team");
+                  setTid(0);
                   setTeamShow(false);
               })
               .catch(err => {
@@ -219,9 +219,8 @@ async function leaveTeamHelper() {
 }
 
 function TeamDetails() {
+  console.log(tid)
   if(teamMem.length != 0) {
-    console.log("if");
-    console.log("inside", teamMem);
     return  (
       <table className="table">
                 <thead>
@@ -242,7 +241,6 @@ function TeamDetails() {
               </table>    
   )            
   } else {
-    console.log("else");
     return (
       <table className="table">
         <thead>
@@ -265,11 +263,7 @@ function TeamDetails() {
   function Example() {  
     return (
       <> 
-
-        {Date.parse(data.end) >= Date.now() ? (tid == null || 0 ? <div className="m-btn btn-success" color="primary" onClick={registerHelper} ><span>Join Now</span></div> : <div className="m-btn btn-success" color="primary" onClick={teamHelper} ><span>Show Team</span></div>):<div hidden></div>}
-
-       
-
+        {(Date.parse(data.start) <= Date.now() && Date.parse(data.end) > Date.now() ) ? (tid == null || 0 ? <div className="m-btn btn-success" onClick={registerHelper} ><span>Join Now</span></div> : <div className="m-btn btn-success" onClick={teamHelper} ><span>Show Team</span></div>):<div hidden></div>}
         <Modal  size="lg"show={lgShow} onHide={() => setLgShow(false)} aria-labelledby="example-modal-sizes-title-lg">
           <Modal.Header closeButton >
             <Modal.Title id="example-modal-sizes-title-lg">Create/Join Team</Modal.Title>
