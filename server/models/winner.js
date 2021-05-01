@@ -30,7 +30,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     tid: DataTypes.INTEGER,
     cid: DataTypes.INTEGER,
-    position: DataTypes.INTEGER
+    position: DataTypes.STRING,
+    prize:DataTypes.STRING
   }, {
     sequelize,
     modelName: 'winner',

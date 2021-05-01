@@ -46,6 +46,8 @@ class viewGame extends Component {
                 <th>Rules</th>
                 <th>Overview</th>
                 <th>Platform</th>
+                <th></th>
+                <th></th>
               </tr>
             </thead>
             <tbody>

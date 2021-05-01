@@ -3,13 +3,14 @@ import React, { Component } from 'react';
 import Router from 'next/router';
 import { Container, Row, Col, Jumbotron, Card, CardBody, Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
 
-class createTournament extends Component {
+class editTournament extends Component {
     constructor(props) {
         super(props);
         this.state = {
             game: [],
             isloading: true,
-            contestname: "",
+            cid:"",
+            contestName: "",
             contestoverview: "",
             reward: "",
             organiser: "",
@@ -25,6 +26,17 @@ class createTournament extends Component {
 
         }
     }
+    static async getInitialProps(ctx) {
+        const cid=ctx.query.cid
+        const result = await axios(
+            `http://localhost:5000/fetchcontest/${cid}`
+          );
+          console.log(result)
+ 
+      
+        return { data: result.data }
+    }
+  
     myChangeHandler = (event) => {
         let nam = event.target.name;
         let val = event.target.value;
@@ -35,7 +47,8 @@ class createTournament extends Component {
         event.preventDefault();
         console.log(this.state.startdate + " " + this.state.starttime)
         const contest = {
-            contestName: this.state.contestname,
+            cid:this.state.cid,
+            contestName: this.state.contestName,
             overview: this.state.contestoverview,
             reward: this.state.reward,
             organiser: this.state.organiser,
@@ -44,10 +57,9 @@ class createTournament extends Component {
             end: this.state.enddate + " " + this.state.endtime,
             gname: this.state.gname,
             gameDay: this.state.gamedate,
-            winners: this.state.winner
         }
         console.log(contest)
-        axios.post('http://localhost:5000/createcontest', contest)
+        axios.put('http://localhost:5000/updatecontest', contest)
             .then(res => {
                 console.log(res);
                 Router.push('/admin/dashboard')
@@ -72,7 +84,10 @@ class createTournament extends Component {
         }));
       }
 
+      
+
     componentDidMount() {
+        
         axios.get('http://localhost:5000/fetchgames')
             .then(res => {
                 this.setState({ game: res.data });
@@ -84,8 +99,20 @@ class createTournament extends Component {
             .catch(err => {
                 console.log(err);
             });
+       console.log(this.props.data)
+            this.setState({ cid: this.props.data.cid });
+            this.setState({ contestName: this.props.data.contestName });
+            this.setState({ contestoverview: this.props.data.overview });
+            this.setState({reward:this.props.data.reward});
+            this.setState({organiser:this.props.data.organiser});
+            this.setState({venue:this.props.data.venue});
+            this.setState({gname:this.props.data.game_id.name});
+            let start=this.props.data.start.split(" ")
+            this.setState({startdate:this.props.data.start});
+            this.setState({starttime:this.props.data.start});
     }
     render() {
+        
         if (this.state.isloading)
             return (<h1>Loading</h1>)
         return (
@@ -106,27 +133,27 @@ class createTournament extends Component {
                                         <Form onSubmit={this.onSubmit}>
                                             <FormGroup>
                                                 <Label for="exampleEmail">Tournament Name</Label>
-                                                <Input type="text" name="contestname" id="contestname" placeholder="Enter the tournament name" onChange={this.myChangeHandler} required />
+                                                <Input type="text" name="contestName" id="contestname" placeholder="Enter the tournament name" value={this.state.contestName} onChange={this.myChangeHandler} required />
                                             </FormGroup>
                                             <FormGroup>
                                                 <Label for="exampleEmail">Tournament overview</Label>
-                                                <Input type="textarea" name="contestoverview" id="contestoverview" placeholder="Enter the tournament overview" onChange={this.myChangeHandler} required />
+                                                <Input type="textarea" name="contestoverview" id="contestoverview" placeholder="Enter the tournament overview" value={this.state.contestoverview} onChange={this.myChangeHandler} required />
                                             </FormGroup>
                                             <FormGroup>
                                                 <Label for="exampleEmail">Tournament organiser</Label>
-                                                <Input type="text" name="organiser" id="organiser" placeholder="Enter the organiser" onChange={this.myChangeHandler} required />
+                                                <Input type="text" name="organiser" id="organiser" placeholder="Enter the organiser" value={this.state.organiser} onChange={this.myChangeHandler} required />
                                             </FormGroup>
                                             <FormGroup>
                                                 <Label for="exampleEmail">Tournament reward</Label>
-                                                <Input type="text" name="reward" id="reward" placeholder="Enter the reward" onChange={this.myChangeHandler} required />
+                                                <Input type="text" name="reward" id="reward" placeholder="Enter the reward" value={this.state.reward} onChange={this.myChangeHandler} required />
                                             </FormGroup>
                                             <FormGroup>
                                                 <Label for="exampleEmail">Tournament venue</Label>
-                                                <Input type="text" name="venue" id="venue" placeholder="Enter the reward" onChange={this.myChangeHandler} required />
+                                                <Input type="text" name="venue" id="venue" placeholder="Enter the reward" value={this.state.venue} onChange={this.myChangeHandler} required />
                                             </FormGroup>
                                             <FormGroup>
                                                 <Label for="exampleSelect">Select the Game</Label>
-                                                <Input type="select" name="gname" id="exampleSelect" onChange={this.myChangeHandler} required>
+                                                <Input type="select" name="gname" id="exampleSelect" onChange={this.myChangeHandler} value={this.state.gname} required>
                                                     <option>select a game</option>
                                                     {this.state.game.map(value => <option>{value.name}</option>)
 
@@ -141,6 +168,7 @@ class createTournament extends Component {
                                                     name="startdate"
                                                     id="exampleDate"
                                                     placeholder=" Start date placeholder"
+                                                    value={this.state.startdate}
                                                     required
                                                     onChange={this.myChangeHandler}
                                                 />
@@ -152,6 +180,7 @@ class createTournament extends Component {
                                                     name="starttime"
                                                     id="exampleTime"
                                                     placeholder="Start time placeholder"
+                                                    value={this.state.starttime}
                                                     required
                                                     onChange={this.myChangeHandler}
                                                 />
@@ -189,41 +218,6 @@ class createTournament extends Component {
                                                     onChange={this.myChangeHandler}
                                                 />
                                             </FormGroup>
-                                            <Button onClick={this.addwinner}>Add prize</Button>
-                                            {
-                                                this.state.winner.map((val, idx) => {
-                                                    return (
-                                                        <div key={idx}>
-                                                            <FormGroup>
-                                                                <Label for="exampleDate">Position</Label>
-                                                                <Input
-                                                                    type="text"
-                                                                    name="position"
-                                                                    id="position"
-                                                                    data-id={idx}
-                                                                    placeholder="Enter the position"
-                                                                    required
-                                                                    onChange={this.Handlerwinner}
-                                                                />
-                                                            </FormGroup>
-                                                            <FormGroup>
-                                                                <Label for="exampleDate">Prize</Label>
-                                                                <Input
-                                                                    type="text"
-                                                                    name="prize"
-                                                                    id="prize"
-                                                                    data-id={idx}
-                                                                    placeholder="Enter the prize"
-                                                                    required
-                                                                    onChange={this.Handlerwinner}
-                                                                />
-                                                            </FormGroup>
-
-
-                                                        </div>
-                                                    )
-                                                })
-                                            }
                                             <Button color="success" type="submit">Submit</Button>
                                         </Form>
 
@@ -239,4 +233,4 @@ class createTournament extends Component {
     }
 }
 
-export default createTournament;
+export default editTournament;

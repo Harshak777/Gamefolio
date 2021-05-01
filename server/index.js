@@ -2,7 +2,7 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 var cors = require('cors');
 const crypto = require('crypto');
-const { sequelize,game,contest,user,team ,participant} = require('./models');
+const { sequelize,game,contest,user,team ,participant,winner} = require('./models');
 
 const { signAccessToken, verifyAccessToken } = require('./jwt_helper');
 
@@ -99,20 +99,83 @@ app.post('/gsignup', async(req, res) => {
 });
 
 
+app.delete('/deletecontest/:cid' ,async(req,res)=>{
+    const cid=req.params.cid;
+    try {
+        const deletecontest = await contest.destroy({
+            where: {
+                cid: cid
+            }
+        })
+       
+        return true;
+    } catch (error) {
+        console.log(error);
+    return res.status(500).json(error);
+    }
+})
+
+app.delete('/deletegame/:gid' ,async(req,res)=>{
+    const gid=req.params.gid;
+    try {
+        const deletecontest = await game.destroy({
+            where: {
+                gid: gid
+            }
+        })
+       
+        return true;
+    } catch (error) {
+        console.log(error);
+    return res.status(500).json(error);
+    }
+})
 
 //creating contest
 
 app.post('/createcontest',async(req,res) => {
-    const{contestName,organiser,reward,venue,start,end,gname,overview,gameday}=req.body;
+    const{contestName,organiser,reward,venue,start,end,gname,overview,gameDay,winners}=req.body;
     try {
         const gameid=await game.findOne({where: {name:gname}});
-        const contestdetails=await contest.create({contestName,organiser,reward,overview,gameday,venue,start,end,gid:gameid.gid});
+        const contestdetails=await contest.create({contestName,organiser,reward,overview,gameDay,venue,start,end,gid:gameid.gid});
+        winners.map(async(val, idx) => {
+            winnerdetails=await winner.create({cid:contestdetails.cid,prize:val.prize,position:val.position})
+        })
         return res.json(contestdetails);
     } catch (error) {
      console.log(error);
     return res.status(500).json(error);
     }
 });
+
+app.put('/updatecontest',async(req,res) => {
+    const{contestName,organiser,reward,venue,start,end,gname,overview,gameDay,cid}=req.body;
+    try {
+        const gameid=await game.findOne({where: {name:gname}});
+        const contestdetails=await contest.update({contestName,organiser,reward,overview,gameDay,venue,start,end,gid:gameid.gid}, { where: { cid: cid } })
+        return res.json(contestdetails);
+    } catch (error) {
+     console.log(error);
+    return res.status(500).json(error);
+    }
+});
+
+
+app.put('/updatewinner',async(req,res) => {
+    const{winners}=req.body;
+    console.log(winners)
+    let winnerdetails={}
+    try {
+        winners.map(async(val, idx) => {
+             winnerdetails=await winner.update({tid:val.tid,prize:val.prize,position:val.position},{where:{cid:val.cid,wid: val.wid }})
+        })
+        return res.json(winnerdetails);
+    } catch (error) {
+     console.log(error);
+    return res.status(500).json(error);
+    }
+});
+
 
 //fetching contest
 
@@ -147,7 +210,17 @@ app.get('/fetchcontest/:cid' ,async(req,res)=>{
     return res.status(500).json(error);
     }
 })
-
+app.get('/fetchwinner/:cid' ,async(req,res)=>{
+    const cid=req.params.cid;
+    console.log(cid);
+    try {
+        const gettinggameDetails= await winner.findAll({where : {cid}});
+        return res.json(gettinggameDetails);
+    } catch (error) {
+        console.log(error);
+    return res.status(500).json(error);
+    }
+})
 app.get('/fetchteam/:cid' ,async(req,res)=>{
     const cid=req.params.cid;
     console.log(cid);
@@ -372,12 +445,21 @@ app.post('/addparticipantwr',async(req , res ) => {
 
 //adding winner
 app.post('/addwinner',async(req , res ) => {
-    const {tid,cid,position} = req.body;
    
+    const {contestname,winners} = req.body;
+
+   console.log(winners)
     try {
-        const winnerdetails = await participant.create({tid,cid,position});   
-        return res.json(winnerdetails);    
- 
+        // const winnerdetails = await participant.create({cid,position,prize});   
+        // return res.json(winnerdetails);    
+        let winnerdetails=[]
+        const contestid=await contest.findOne({where: {contestName:contestname}});
+        for( let i=0;i<winners.length;i++)
+        {   
+            winnerdetails[i]= await winner.create({cid:contestid.cid,position:winners[i].name,prize:winners[i].prize});  
+        }
+        return res.json(winnerdetails);
+        
     } catch (error) {
         console.log(error);
         return res.status(500).json(error);
@@ -385,7 +467,6 @@ app.post('/addwinner',async(req , res ) => {
     }
 
 });
-
 app.get('/users', async(req, res) => {
     try {
         const allUsers = await user.findAll()
