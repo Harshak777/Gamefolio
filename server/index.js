@@ -400,7 +400,7 @@ app.post('/leave-team', async(req, res) => {
     }
 });
 
-app.post('/getTeamMembers', async(req, res) => {
+app.post('/getTeamDetails', async(req, res) => {
     const {cid, tid} = req.body;
 
     try {
@@ -410,7 +410,11 @@ app.post('/getTeamMembers', async(req, res) => {
             include: [{model: team, as: 'team_id'},{model: user, as: 'user_id',attributes:["name"]}]
             }
         );
-        return res.json(participantdetails);
+
+        const refCode = await team.findOne(
+            {where: {tid: tid}}
+        )
+        return res.json({participantdetails, refCode});
     } catch (error) {
         console.log(error);
         return res.status(500).json(error);

@@ -27,6 +27,7 @@ const [isRegistered, setIsRegistered] = useState(false);
 const [tid, setTid] = useState(null);
 const [pid, setPid] = useState(0);
 const [teamMem, setTeamMem] = useState([]);
+const [refCode, setRefCode] = useState('');
 
 useEffect(async () => {
   const temp = {accessToken: localStorage.getItem('accessToken')};
@@ -83,10 +84,12 @@ useEffect(() => {
       cid,
       tid
     }
-    await axios.post('http://localhost:5000/getTeamMembers', temp)
+    await axios.post('http://localhost:5000/getTeamDetails', temp)
                 .then(res => {
                   console.log('Fetching Team Data');
-                  setTeamMem(res.data);
+                  // console.log(res.data.refCode);
+                  setTeamMem(res.data.participantdetails);
+                  setRefCode(res.data.refCode.referral);
                 })
                 .catch(err => {
                     console.log(err);
@@ -223,22 +226,22 @@ function TeamDetails() {
   if(teamMem.length != 0) {
     return  (
       <table className="table">
-                <thead>
-                  <tr>
-                    <th scope="col">User Name</th>
-                    <th scope="col">Ingame Handle</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {teamMem.map((teamMate) => (
-                      <tr>
-                        <td>{teamMate.user_id.name}</td>
-                        <td>{teamMate.ingame_id}</td>
-                      </tr>
-                  ))
-                    }
-                </tbody>
-              </table>    
+        <thead>
+          <tr>
+            <th scope="col">User Name</th>
+            <th scope="col">Ingame Handle</th>
+          </tr>
+        </thead>
+        <tbody>
+          {teamMem.map((teamMate) => (
+              <tr>
+                <td>{teamMate.user_id.name}</td>
+                <td>{teamMate.ingame_id}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>    
   )            
   } else {
     return (
@@ -252,7 +255,7 @@ function TeamDetails() {
         <tbody>
           <tr>
             <td>You dont have a team</td>
-            <td>@mdo</td>
+            <td>Please register</td>
           </tr>
         </tbody>
       </table> 
@@ -311,6 +314,7 @@ function TeamDetails() {
           </Modal.Header>
           <Modal.Body >
             <div className="container">
+              <h5>Ref: {refCode}</h5>
               Team Members:
                   <TeamDetails />
                   <div className="btn btn-danger" onClick={leaveTeamHelper} ><span>Leave Team</span></div>
