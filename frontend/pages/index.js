@@ -25,7 +25,7 @@ const Home = () => {
 
   return(
   <Layout login={userName}>
-  <div className="animate-bottom">
+  <div className="animate-bottom" id="gfmain">
    <div className="jumbotron in-can">
       <h1 className="display-3">Hello, Gamer!</h1>
       <p className="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
@@ -36,6 +36,14 @@ const Home = () => {
       </p>
     </div>
     </div>
+     
+    <footer >
+      <div class="footer-copyright text-center py-3">© 2021 Copyright:
+    <a href="https://mdbootstrap.com/"> Gamefoliodev.com</a>
+  </div>
+ 
+
+</footer>
   </Layout>
 )};
 

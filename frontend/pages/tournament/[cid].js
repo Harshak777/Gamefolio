@@ -326,7 +326,7 @@ function TeamDetails() {
   }
 
 if(isLoading)
-return <p>{isLoading.toString()}</p>
+return <p>{isLoading.toString(<div class="loader"></div>)}</p>
 else{
   return (
     <Layout login={userName}>
@@ -440,8 +440,16 @@ else{
         </div>
         </div>
     </main> 
+    <footer >
+      <div class="footer-copyright text-center py-3">© 2021 Copyright:
+    <a href="https://mdbootstrap.com/"> Gamefoliodev.com</a>
+  </div>
+ 
+
+</footer>
        
     </Layout>
+     
   );
   }
 }

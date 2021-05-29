@@ -186,6 +186,13 @@ export default class signup extends Component {
                         </div>
                         </Container>
                 </Jumbotron>
+                <footer class="page-footer font-small unique-color-dark pt-4">
+      <div class="footer-copyright text-center py-3">© 2021 Copyright:
+    <a href="https://mdbootstrap.com/"> Gamefoliodev.com</a>
+  </div>
+ 
+
+</footer>
             </Layout>
         )
     }
