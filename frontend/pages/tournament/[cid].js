@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import Router from 'next/router';
 import Modal from 'react-bootstrap/Modal';
-import {Button} from 'reactstrap';
 
 const tournament = () => {
   const router = useRouter()
@@ -23,7 +22,6 @@ const tournament = () => {
 
 const [userName, setUserName] = useState('');
 const [uid, setUid] = useState(0);
-const [isRegistered, setIsRegistered] = useState(false);
 const [tid, setTid] = useState(null);
 const [pid, setPid] = useState(0);
 const [teamMem, setTeamMem] = useState([]);
@@ -65,6 +63,7 @@ const getTeamID = async () => {
     uid,
     cid
   }
+  
   await axios.post('http://localhost:5000/getTeamId', temp1)
               .then(res => {
                   if(res.data!=null)

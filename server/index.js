@@ -210,11 +210,40 @@ app.get('/fetchcontest/:cid' ,async(req,res)=>{
     return res.status(500).json(error);
     }
 })
+
+app.post('/fetch-profile', async(req, res) => {
+    const {uid} = req.body;
+
+    try {
+
+        const participantdetails = await participant.findAll(
+            {
+            where: {uid: uid},
+            include: [{model: contest, as: 'contest_id', attributes:["contestName"]}, {model: team, as: 'team_id',attributes:["name"]}],
+            attributes: ["ingame_id", "cid", "id"]
+            }
+        );
+
+        const users = await user.findOne(
+            {
+            where: {uid}
+            ,
+            attributes: ['name', 'email'] 
+            }
+        );
+
+        return res.json({participantdetails, users});
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json(error);
+    }
+});
+
 app.get('/fetchwinner/:cid' ,async(req,res)=>{
     const cid=req.params.cid;
     console.log(cid);
     try {
-        const gettinggameDetails= await winner.findAll({where : {cid}});
+        const gettinggameDetails = await winner.findAll({where : {cid}});
         return res.json(gettinggameDetails);
     } catch (error) {
         console.log(error);
