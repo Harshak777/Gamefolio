@@ -18,7 +18,7 @@ const TopNavbar = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
-  console.log("log"+ props.login)
+  console.log("log", props)
 
   const logoutUser = () => {
     localStorage.clear();
@@ -36,7 +36,7 @@ const TopNavbar = (props) => {
               <NavLink href="/contest/" style={{color:"white"}}>Contest</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/" style={{color:"white"}}>Dashboard</NavLink>
+              <NavLink href="/dashboard/" style={{color:"white"}}>Dashboard</NavLink>
             </NavItem>
           </Nav>
           <Nav>
