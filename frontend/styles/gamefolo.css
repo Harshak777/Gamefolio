@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css?family=Questrial);
+@import url(https://fonts.googleapis.com/css?family=Dancing+Script:700);
 *{
     outline: none;
 }
@@ -1289,15 +1291,101 @@ h5{
 	color: #fff;
 	
 }
+
+hr {
+    max-width: 80px;
+    border-width: 3px;
+    opacity: 0.09;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+hr.light {
+    border-color: #fff;
+}
 .container{
     padding-top: 1%;
 }
+#first {
+    position: relative;
+    min-height: auto;
+    text-align: center;
+    color: #fff;
+    width: 100%;
+    background-color: #c9c9c9;
+    background-image: url('https://splashbase.s3.amazonaws.com/lifeofpix/regular/Life-of-Pix-free-stock-photos-Slate-Stone-Xeromatic-1440x953.jpg');
+    background-position: center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+#first{
+    height: 100vh;
+}
 
+#first .header-content {
+    position: relative;
+    width: 100%;
+    padding: 100px 15px;
+    text-align: center;
+    z-index: 2;
+}
+
+#first .header-content .inner h1 {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+#first .header-content .inner p {
+    margin-bottom: 50px;
+    font-size: 16px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.7);
+}
+
+.header-content{
+    margin-top: 10%;
+}
+
+section {
+    color: #ccc;
+    min-height: 600px;
+    padding: 100px 0;
+}
+
+#one{
+    
+    background-color: rgb(41, 40, 40);
+}
+
+#two{
+    background-color: rgb(3, 3, 3);
+}
+
+#ocontainer {
+    width: 100%;
+    text-align: center;
+    
+  }
+  
+  #orow {
+    display: inline-flex;
+    text-align: center;
+    margin: 0 auto;
+    padding: 3px;
+    
+  }
 #gfmain{
     min-height: 100vh;
     display: flex;
     flex-direction: column;
 
+}
+
+#ocol{
+    
+    display: inline;
 }
 /* .card-deck .card {
     max-width: calc(25% - 30px);

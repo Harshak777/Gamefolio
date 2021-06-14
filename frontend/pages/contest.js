@@ -94,7 +94,7 @@ export default class contest extends Component {
 
             <Layout login={this.state.userName}>
                 <div className="flex-container">
-                <div className="sidebar">
+                {/* <div className="sidebar">
                 <Nav vertical className="list-unstyled pb-3">
                                     <NavItem style={{ fontSize: "150%", color: "white" }}>
                                         <NavLink style={{ color: "white" }} href="#"><BsController />  Games</NavLink>
@@ -114,8 +114,8 @@ export default class contest extends Component {
                                         </DropdownMenu>
                                     </Dropdown>
                                 </Nav>
-                </div>
-                <div class="container">
+                </div> */}
+                {/* <div class="container">
                      <div class="row">
 
         <div class="col-12">
@@ -137,7 +137,7 @@ export default class contest extends Component {
                     
                     
                 </div>
-                {/* <div class="card">
+                <div class="card">
                     <img src="//placehold.it/600" class="card-img-top img-adjusted"/>
                     <div class="card-body">...</div>
                 </div>
@@ -148,10 +148,10 @@ export default class contest extends Component {
                 <div class="card">
                     <img src="//placehold.it/600" class="card-img-top img-adjusted"/>
                     <div class="card-body">...</div>
-                </div> */}
+                </div>
                 <div class="w-100 py-2"></div>
-                {/* next row */}
-                {/* <div class="card">
+                next row
+                <div class="card">
                     <img src="//placehold.it/800x400" class="card-img-top img-adjusted"/>
                     <div class="card-body">...</div>
                 </div>
@@ -167,14 +167,14 @@ export default class contest extends Component {
                     <img src="//placehold.it/600" class="card-img-top img-adjusted"/>
                     <div class="card-body">...</div>
                 </div>
-                <div class="w-100 py-2"></div> */}
+                <div class="w-100 py-2"></div>
                 
             </div>
         </div>
     </div>
-</div>
-                </div>
-                {/* <Container fluid>
+</div> */}
+                
+                 <Container fluid>
                     <Row>
                         <Col md={2}>
                         <div className="animate-right">
@@ -210,7 +210,7 @@ export default class contest extends Component {
                             <CardColumns>
                                 {this.state.contest.map(value => (
                                     <Card>
-                                        <CardImg top width="100%" src="/assets/318x180.svg" alt="Card image cap" />
+                                        <CardImg top width="100%" src="./pubg.png" alt="Card image cap" />
                                         <CardBody>
                                             <CardTitle tag="h5">{value.contestName}</CardTitle>
                                             <CardSubtitle tag="h6" className="mb-2 text-muted">{value.game_id.name}</CardSubtitle>
@@ -227,7 +227,8 @@ export default class contest extends Component {
                         </div>
                     </Col>
                     </Row>
-                </Container> */}
+                </Container> 
+                </div>
   <footer >
       <div class="footer-copyright text-center py-3">© 2021 Copyright:
     <a href="https://mdbootstrap.com/"> Gamefoliodev.com</a>
