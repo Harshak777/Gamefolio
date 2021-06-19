@@ -13,7 +13,7 @@ class viewTournament extends Component {
     }
   }
   componentDidMount() {
-    axios.get('http://localhost:5000/fetchcontests')
+    axios.get(`${process.env.API}/fetchcontests`)
       .then(res => {
         this.setState({ game: res.data });
 
@@ -27,7 +27,7 @@ class viewTournament extends Component {
   }
 
   deleteContest = (cid) => {
-    axios.delete(`http://localhost:5000/deletecontest/${cid}`)
+    axios.delete(`${process.env.API}/deletecontest/${cid}`)
       .then(res => {
         Router.push('admin/dashboard')
       })

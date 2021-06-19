@@ -18,7 +18,7 @@ const team = () => {
   useEffect(async () => {
     if (isLoading)
       await axios(
-        `http://localhost:5000/fetchteam/${cid}`
+        `${process.env.API}/fetchteam/${cid}`
       ).then(result => {
         const sorteddata = result.data.sort(function (a, b) { return a.tid - b.tid });
         setData(sorteddata)

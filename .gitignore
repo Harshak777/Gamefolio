@@ -24,4 +24,4 @@ frontend/yarn-error.log*
 
 server/node_modules
 server/.env
-server/config/config.json
+

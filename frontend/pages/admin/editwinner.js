@@ -29,7 +29,7 @@ class editWinner extends Component {
     static async getInitialProps(ctx) {
         const cid=ctx.query.cid
         const result = await axios(
-            `http://localhost:5000/fetchwinner/${cid}`
+            `${process.env.API}/fetchwinner/${cid}`
           );
           console.log(result)
 
@@ -49,7 +49,7 @@ class editWinner extends Component {
           winners:this.state.winner
         }
         console.log(contest)
-        axios.put('http://localhost:5000/updatewinner', contest)
+        axios.put(`${process.env.API}/updatewinner`, contest)
             .then(res => {
                 console.log(res);
                 Router.push('/admin/dashboard')

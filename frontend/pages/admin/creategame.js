@@ -31,7 +31,7 @@ class createGame extends Component {
            overview:this.state.overview
         }
         
-        axios.post('http://localhost:5000/creategame', game)
+        axios.post(`${process.env.API}/creategame`, game)
         .then(res => {
             console.log(res);
             Router.push('/admin/dashboard')

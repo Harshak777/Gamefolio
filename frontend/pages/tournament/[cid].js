@@ -31,7 +31,7 @@ useEffect(async () => {
   const temp = {accessToken: localStorage.getItem('accessToken')};
 
   if(temp!=null) {
-    await axios.post('http://localhost:5000/jwtverify', temp)
+    await axios.post(`${process.env.API}/jwtverify`, temp)
                 .then(res => {
                     setUserName(res.data.decoded.name);
                     localStorage.setItem('userName', res.data.decoded.name);
@@ -46,7 +46,7 @@ useEffect(async () => {
 
 // useEffect(async () => {
 //   const temp = {accessToken: localStorage.getItem('accessToken')};
-//     await axios.post('http://localhost:5000/jwtverify', temp)
+//     await axios.post('${process.env.API}/jwtverify', temp)
 //                 .then(res => {
 //                   if(res.data!=null)
 //                     setUid(res.data.decoded.uid);
@@ -64,7 +64,7 @@ const getTeamID = async () => {
     cid
   }
   
-  await axios.post('http://localhost:5000/getTeamId', temp1)
+  await axios.post(`${process.env.API}/getTeamId`, temp1)
               .then(res => {
                   if(res.data!=null)
                   setTid(res.data.tid);
@@ -83,7 +83,7 @@ useEffect(() => {
       cid,
       tid
     }
-    await axios.post('http://localhost:5000/getTeamDetails', temp)
+    await axios.post(`${process.env.API}/getTeamDetails`, temp)
                 .then(res => {
                   console.log('Fetching Team Data');
                   // console.log(res.data.refCode);
@@ -105,7 +105,7 @@ useEffect(() => {
 
     const fetchdata = async () => {
       const result = await axios(
-        `http://localhost:5000/fetchcontest/${cid}`
+        `${process.env.API}fetchcontest/${cid}`
       );
       setData(result.data);
       console.log(result.data);
@@ -122,7 +122,7 @@ useEffect(() => {
     e.preventDefault();
     var uid;
     const temp = {accessToken: localStorage.getItem('accessToken')}
-    await axios.post('http://localhost:5000/jwtverify', temp)
+    await axios.post(`${process.env.API}/jwtverify`, temp)
                 .then(res => {
                     console.log(res.data.decoded.uid);
                     uid=res.data.decoded.uid;
@@ -138,7 +138,7 @@ useEffect(() => {
       ingame_id: field["ingameID1"]
     }
     console.log(form);
-    await axios.post('http://localhost:5000/addparticipant', form)
+    await axios.post(`${process.env.API}/addparticipant`, form)
                 .then(res => {
                     console.log(res);
                     alert(res.data.ref);
@@ -153,7 +153,7 @@ useEffect(() => {
     e.preventDefault();
     var uid;
     const temp = {accessToken: localStorage.getItem('accessToken')}
-    await axios.post('http://localhost:5000/jwtverify', temp)
+    await axios.post(`${process.env.API}/jwtverify`, temp)
                 .then(res => {
                     console.log(res.data.decoded.uid);
                     uid=res.data.decoded.uid;
@@ -169,7 +169,7 @@ useEffect(() => {
       ingame_id: field["ingameID2"]
     };
     console.log(form);
-    await axios.post('http://localhost:5000/addparticipantwr', form)
+    await axios.post(`${process.env.API}/addparticipantwr`, form)
                 .then(res => {
                     console.log(res);
                     alert(res.request.statusText);
@@ -208,7 +208,7 @@ async function leaveTeamHelper() {
     tid
   };
 
-  await axios.post('http://localhost:5000/leave-team', form)
+  await axios.post(`${process.env.API}/leave-team`, form)
               .then(res => {
                   console.log(res);
                   alert("You left the team");

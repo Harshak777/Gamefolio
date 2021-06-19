@@ -12,7 +12,7 @@ const Home = () => {
     if(name!=null) {
       setUserName(name);
     } else if(temp!=null) {
-      await axios.post('http://localhost:5000/jwtverify', temp)
+      await axios.post(`${process.env.API}/jwtverify`, temp)
                   .then(res => {
                       setUserName(res.data.decoded.name);
                       localStorage.setItem('userName', res.data.decoded.name);

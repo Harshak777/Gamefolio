@@ -85,7 +85,7 @@ export default class signup extends Component {
                         email: this.state.email
                     };
     
-                    axios.post('http://localhost:5000/signup', form)
+                    axios.post(`${process.env.API}/signup`, form)
                         .then(res => {
                             console.log(res.data);
                             Router.push("/login");
@@ -121,7 +121,7 @@ export default class signup extends Component {
                     verify: true
                 };
     
-                axios.post('http://localhost:5000/gsignup', form)
+                axios.post(`${process.env.API}/gsignup`, form)
                     .then(res => {
                         console.log(res);
                         localStorage.setItem('accessToken', res.data.accessToken);

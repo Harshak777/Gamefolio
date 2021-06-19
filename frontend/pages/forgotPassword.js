@@ -24,7 +24,7 @@ export default class forgetPassword extends Component {
         } else if(temp!=null) {
             try {
                 
-                await axios.post('http://localhost:5000/jwtverify', temp)
+                await axios.post(`${process.env.API}/jwtverify`, temp)
                             .then(res => {
                                 this.setState({userName: res.data.decoded.name});
                                 localStorage.setItem('userName', res.data.decoded.name);
@@ -51,7 +51,7 @@ export default class forgetPassword extends Component {
             email: this.state.email
         };
 
-        axios.post('http://localhost:5000/forgot-password', form)
+        axios.post(`${process.env.API}/forgot-password`, form)
             .then(res => {
                 console.log(res.data);
                     this.setState({alertMessage: res.data.status, alert: true});
