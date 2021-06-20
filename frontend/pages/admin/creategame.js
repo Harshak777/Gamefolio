@@ -31,7 +31,7 @@ class createGame extends Component {
            overview:this.state.overview
         }
         
-        axios.post(`${process.env.API}/creategame`, game)
+        axios.post(`${process.env.NEXT_PUBLIC_API}/creategame`, game)
         .then(res => {
             console.log(res);
             Router.push('/admin/dashboard')

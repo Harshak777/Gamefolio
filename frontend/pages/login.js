@@ -44,7 +44,7 @@ export default class login extends Component {
             email: this.state.email
         };
 
-        axios.post(`${process.env.API}/login`, form)
+        axios.post(`${process.env.NEXT_PUBLIC_API}/login`, form)
             .then(res => {
                 console.log(res);
                 if (res.data.status == "User found") {
@@ -82,7 +82,7 @@ export default class login extends Component {
                     verify: true
                 };
 
-                axios.post(`${process.env.API}/gsignup`, form)
+                axios.post(`${process.env.NEXT_PUBLIC_API}/gsignup`, form)
                     .then(res => {
                         console.log(res);
                         localStorage.setItem('accessToken', res.data.accessToken);

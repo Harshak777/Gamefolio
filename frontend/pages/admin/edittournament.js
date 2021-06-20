@@ -29,7 +29,7 @@ class editTournament extends Component {
     static async getInitialProps(ctx) {
         const cid=ctx.query.cid
         const result = await axios(
-            `${process.env.API}/fetchcontest/${cid}`
+            `${process.env.NEXT_PUBLIC_API}/fetchcontest/${cid}`
           );
           console.log(result)
  
@@ -59,7 +59,7 @@ class editTournament extends Component {
             gameDay: this.state.gamedate,
         }
         console.log(contest)
-        axios.put(`${process.env.API}/updatecontest`, contest)
+        axios.put(`${process.env.NEXT_PUBLIC_API}/updatecontest`, contest)
             .then(res => {
                 console.log(res);
                 Router.push('/admin/dashboard')
@@ -88,7 +88,7 @@ class editTournament extends Component {
 
     componentDidMount() {
         
-        axios.get(`${process.env.API}/fetchgames`)
+        axios.get(`${process.env.NEXT_PUBLIC_API}/fetchgames`)
             .then(res => {
                 this.setState({ game: res.data });
 

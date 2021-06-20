@@ -13,7 +13,7 @@ class viewTournament extends Component {
     }
   }
   componentDidMount() {
-    axios.get(`${process.env.API}/fetchcontests`)
+    axios.get(`${process.env.NEXT_PUBLIC_API}/fetchcontests`)
       .then(res => {
         this.setState({ game: res.data });
 
@@ -27,7 +27,7 @@ class viewTournament extends Component {
   }
 
   deleteContest = (cid) => {
-    axios.delete(`${process.env.API}/deletecontest/${cid}`)
+    axios.delete(`${process.env.NEXT_PUBLIC_API}/deletecontest/${cid}`)
       .then(res => {
         Router.push('admin/dashboard')
       })

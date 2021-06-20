@@ -47,7 +47,7 @@ class createTournament extends Component {
             winners: this.state.winner
         }
         console.log(contest)
-        axios.post(`${process.env.API}/createcontest`, contest)
+        axios.post(`${process.env.NEXT_PUBLIC_API}/createcontest`, contest)
             .then(res => {
                 console.log(res);
                 Router.push('/admin/dashboard')
@@ -73,7 +73,7 @@ class createTournament extends Component {
       }
 
     componentDidMount() {
-        axios.get(`${process.env.API}/fetchgames`)
+        axios.get(`${process.env.NEXT_PUBLIC_API}/fetchgames`)
             .then(res => {
                 this.setState({ game: res.data });
 

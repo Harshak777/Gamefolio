@@ -31,7 +31,7 @@ export default class contest extends Component {
         } else if(temp!=null) {
             try {
                 
-                await axios.post(`${process.env.API}/jwtverify`, temp)
+                await axios.post(`${process.env.NEXT_PUBLIC_API}/jwtverify`, temp)
                             .then(res => {
                                 this.setState({userName: res.data.decoded.name});
                                 localStorage.setItem('userName', res.data.decoded.name);
@@ -44,7 +44,7 @@ export default class contest extends Component {
             }
         }
 
-        axios.get(`${process.env.API}/fetchcontests`)
+        axios.get(`${process.env.NEXT_PUBLIC_API}/fetchcontests`)
             .then(res => {
                 this.setState({ contest: res.data });
                 this.setState({ contests: res.data });

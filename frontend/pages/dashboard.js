@@ -14,7 +14,7 @@ const Dashboard = () => {
     const temp = {accessToken: localStorage.getItem('accessToken')};
   
     if(temp!=null) {
-      await axios.post(`${process.env.API}/jwtverify`, temp)
+      await axios.post(`${process.env.NEXT_PUBLIC_API}/jwtverify`, temp)
                   .then(res => {
                       setUserName(res.data.decoded.name);
                       localStorage.setItem('userName', res.data.decoded.name);
@@ -35,7 +35,7 @@ const Dashboard = () => {
       uid: uid
     }
     
-    await axios.post(`${process.env.API}/fetch-profile`, temp1)
+    await axios.post(`${process.env.NEXT_PUBLIC_API}/fetch-profile`, temp1)
                 .then(res => {
                     if(res.data!=null)
                     console.log(res.data);

@@ -12,7 +12,7 @@ class viewGame extends Component {
     }
     componentDidMount()
     {
-        axios.get(`${process.env.API}/fetchgames`)
+        axios.get(`${process.env.NEXT_PUBLIC_API}/fetchgames`)
         .then(res => {
             this.setState({ game: res.data });
           
