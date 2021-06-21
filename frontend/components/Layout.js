@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Navbar from './Navbar';
-import 'bootswatch/dist/Cyborg/bootstrap.min.css'
+import 'tailwindcss/tailwind.css'
 
 const Layout = (props) => (
   <div>
