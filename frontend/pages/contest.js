@@ -18,7 +18,8 @@ export default class contest extends Component {
             contests: [],
             dropdownOpen: false,
             isloading: true,
-            userName: ''
+            userName: '',
+            openTab:1
         };
     };
 
@@ -93,149 +94,121 @@ export default class contest extends Component {
         return (
 
             <Layout login={this.state.userName}>
-                <div className="flex-container">
-                {/* <div className="sidebar">
-                <Nav vertical className="list-unstyled pb-3">
-                                    <NavItem style={{ fontSize: "150%", color: "white" }}>
-                                        <NavLink style={{ color: "white" }} href="#"><BsController />  Games</NavLink>
-                                    </NavItem>
-                                    <NavItem style={{ fontSize: "150%" }}>
-                                        <NavLink style={{ color: "white" }} href="#"><BsFillPersonFill />   Players</NavLink>
-                                    </NavItem>
-                                    <Dropdown style={{ fontSize: "150%" }} nav isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-                                        <DropdownToggle nav caret style={{ color: "white" }}>
-                                            <BsTrophy />   Tournament
-                                        </DropdownToggle>
-                                        <DropdownMenu>
-                                            <DropdownItem onClick={this.All}> All</DropdownItem>
-                                            <DropdownItem onClick={this.live}> Live</DropdownItem>
-                                            <DropdownItem onClick={this.upcoming}> Upcoming</DropdownItem>
-                                            <DropdownItem onClick={this.pervious}> Pervious</DropdownItem>
-                                        </DropdownMenu>
-                                    </Dropdown>
-                                </Nav>
-                </div> */}
-                {/* <div class="container">
-                     <div class="row">
-
-        <div class="col-12">
-            <div class="card-deck">
-                
-                <div class="card">
-                    <img src="https://i.imgur.com/A8eQsll.jpg" class="card-img-top img-adjusted"/>
-                    
-                    {this.state.contest.map(value => (
-                        <div class="card-body">
-                        <h5 class="card-title">{value.contestName}</h5>
-                        <h6 class="card-subtitle" className="mb-2 text-muted">{value.game_id.name}</h6>
-                        <p class="card-text">End date : {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(Date.parse(value.end))} <br /> Reward : {value.reward}.</p>
-                    <Button type="button" color="primary" onClick={() => {
-                        Router.push(`/tournament/${value.cid}`)
-                    }}>Register</Button>
-                    </div>
-                    ))}
-                    
-                    
-                </div>
-                <div class="card">
-                    <img src="//placehold.it/600" class="card-img-top img-adjusted"/>
-                    <div class="card-body">...</div>
-                </div>
-                <div class="card">
-                    <img src="//placehold.it/600x400" class="card-img-top img-adjusted"/>
-                    <div class="card-body">...</div>
-                </div>
-                <div class="card">
-                    <img src="//placehold.it/600" class="card-img-top img-adjusted"/>
-                    <div class="card-body">...</div>
-                </div>
-                <div class="w-100 py-2"></div>
-                next row
-                <div class="card">
-                    <img src="//placehold.it/800x400" class="card-img-top img-adjusted"/>
-                    <div class="card-body">...</div>
-                </div>
-                <div class="card">
-                    <img src="//placehold.it/600" class="card-img-top img-adjusted"/>
-                    <div class="card-body"></div>
-                </div>
-                <div class="card">
-                    <img src="//placehold.it/600" class="card-img-top img-adjusted"/>
-                    <div class="card-body">...</div>
-                </div>
-                <div class="card">
-                    <img src="//placehold.it/600" class="card-img-top img-adjusted"/>
-                    <div class="card-body">...</div>
-                </div>
-                <div class="w-100 py-2"></div>
-                
-            </div>
+       <div class="text-gray-400 bg-gray-900 body-font w-full">
+ 
+    <div class="flex flex-col text-center w-full py-10">
+      <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-white">Master Cleanse Reliac Heirloom</h1>
+      <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Whatever cardigan tote bag tumblr hexagon brooklyn asymmetrical gentrify, subway tile poke farm-to-table. Franzen you probably haven't heard of them man bun deep jianbing selfies heirloom.</p>
+    </div>
+    <div class=" bg-gray-900  ">
+    <div class="container  flex justify-center items-center sm:w-full">
+        <div class="relative">
+            <div class="absolute top-4 left-3">        <svg class="h-4 w-4 text-grey-dark" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"/></svg></div> <input type="text" class="h-10 w-96 pl-10 pr-20 rounded-lg z-0 focus:shadow focus:outline-none" placeholder="Search anything..."/>
+            <div class="absolute top-0 right-0"> <button class="h-10 w-20 text-white rounded-lg bg-indigo-600 hover:bg-indigo-700">Search</button> </div>
         </div>
     </div>
-</div> */}
-                
-                 <Container fluid>
-                    <Row>
-                        <Col md={2}>
-                        <div className="animate-right">
-                            <div>
-                                <hr />
-                                <Nav vertical className="list-unstyled pb-3">
-                                    <NavItem style={{ fontSize: "150%", color: "white" }}>
-                                        <NavLink style={{ color: "white" }} href="#"><BsController />  Games</NavLink>
-                                    </NavItem>
-                                    <NavItem style={{ fontSize: "150%" }}>
-                                        <NavLink style={{ color: "white" }} href="#"><BsFillPersonFill />   Players</NavLink>
-                                    </NavItem>
-                                    <Dropdown style={{ fontSize: "150%" }} nav isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-                                        <DropdownToggle nav caret style={{ color: "white" }}>
-                                            <BsTrophy />   Tournament
-                                        </DropdownToggle>
-                                        <DropdownMenu>
-                                            <DropdownItem onClick={this.All}> All</DropdownItem>
-                                            <DropdownItem onClick={this.live}> Live</DropdownItem>
-                                            <DropdownItem onClick={this.upcoming}> Upcoming</DropdownItem>
-                                            <DropdownItem onClick={this.pervious}> Pervious</DropdownItem>
-                                        </DropdownMenu>
-                                    </Dropdown>
-                                </Nav>
-                                <hr />
-                            </div>
-                            </div>
-                        </Col>
-                       
-                        <Col md={10}>
-                        <div className="animate-bottom">
-                        <div style={{ paddingTop: "2rem" }}>
-                            <CardColumns>
-                                {this.state.contest.map(value => (
-                                    <Card>
-                                        <CardImg top width="100%" src="./pubg.png" alt="Card image cap" />
-                                        <CardBody>
-                                            <CardTitle tag="h5">{value.contestName}</CardTitle>
-                                            <CardSubtitle tag="h6" className="mb-2 text-muted">{value.game_id.name}</CardSubtitle>
-                                            <CardText>End date : {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(Date.parse(value.end))} <br /> Reward : {value.reward}.</CardText>
-                                            <Button type="button" color="primary" onClick={() => {
-                                                Router.push(`/tournament/${value.cid}`)
-                                            }}>Register</Button>
-                                        </CardBody>
-                                    </Card>
-
-                                ))}
-                            </CardColumns>
-                        </div>
-                        </div>
-                    </Col>
-                    </Row>
-                </Container> 
-                </div>
-  <footer >
-      <div class="footer-copyright text-center py-3">© 2021 Copyright:
-    <a href="https://mdbootstrap.com/"> Gamefoliodev.com</a>
+    <div className="flex flex-wrap py-5 justify-center">
+        <div className="lg:w-1/2 md:w-2/3">
+    <ul
+            className="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row"
+            role="tablist"
+          >
+            <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
+              <a
+                className={
+                  "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
+                  (this.state.openTab === 1
+                    ? "text-white bg-indigo-600"
+                    : "text-indigo-600 bg-white")
+                }
+                onClick={e => {
+                  e.preventDefault();
+                  this.setState({openTab:1})
+                }}
+                data-toggle="tab"
+                href="#link1"
+                role="tablist"
+              >
+               LIVE
+              </a>
+            </li>
+            <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
+              <a
+                className={
+                  "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
+                  (this.state.openTab === 2
+                    ?"text-white bg-indigo-600"
+                    : "text-indigo-600 bg-white")
+                }
+                onClick={e => {
+                  e.preventDefault();
+                  this.setState({openTab:2})
+                }}
+                data-toggle="tab"
+                href="#link2"
+                role="tablist"
+              >
+                UPCOMING
+              </a>
+            </li>
+            <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
+              <a
+                className={
+                  "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
+                  (this.state.openTab === 3
+                    ?"text-white bg-indigo-600"
+                    : "text-indigo-600 bg-white")
+                }
+                onClick={e => {
+                  e.preventDefault();
+                  this.setState({openTab:3})
+                }}
+                data-toggle="tab"
+                href="#link3"
+                role="tablist"
+              >
+               PERVIOUS
+              </a>
+            </li>
+          </ul>
+</div>
+<div class="container px-10 py-5 mx-auto">
+    <div class="flex flex-wrap -m-4">
+    {this.state.contest.map(value => (
+      <div class="p-4 md:w-1/4">
+        <div class="h-full border-2 border-gray-800 rounded-lg overflow-hidden">
+          <img class="lg:h-48 md:h-36 w-full object-cover object-center" src="https://dummyimage.com/720x400" alt="blog"/>
+          <div class="p-6">
+            <h2 class="tracking-widest text-xs title-font font-medium text-gray-500 mb-1">{value.game_id.name}</h2>
+            <h1 class="title-font text-lg font-medium text-white mb-3">{value.contestName}</h1>
+            <p class="leading-relaxed mb-3">End date : {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(Date.parse(value.end))} <br /> Reward : {value.reward}</p>
+            <div class="flex items-center flex-wrap ">
+              <button class="text-indigo-400 inline-flex items-center md:mb-2 lg:mb-0" onClick={() => { Router.push(`/tournament/${value.cid}`)}}>Register
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+          <path d="M5 12h14M12 5l7 7-7 7"></path>
+        </svg>
+              </button>
+              <span class="text-gray-500 mr-3 inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-800">
+                <svg class="w-4 h-4 mr-1" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>1.2K
+              </span>
+              <span class="  text-gray-500 inline-flex items-center leading-none text-sm">
+              
+                  <p class="text-green-400">Live</p>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+        ))}
+  </div>
+  </div>
+  </div>
   </div>
  
-
-</footer>
+</div>
             </Layout>
             
 
