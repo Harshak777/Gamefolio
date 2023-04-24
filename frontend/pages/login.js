@@ -3,9 +3,10 @@ import Link from 'next/link';
 import axios from 'axios';
 import Router from 'next/router';
 import Layout from "../components/Layout";
+import Footer from "../components/Footer";
 import { GoogleLogin } from 'react-google-login';
 import { Button } from 'react-bootstrap';
-import { Container, Jumbotron, Alert  } from "reactstrap";
+import { Container, Jumbotron, Alert } from "reactstrap";
 
 export default class login extends Component {
     constructor() {
@@ -19,7 +20,7 @@ export default class login extends Component {
     }
 
     componentDidMount() {
-        if(localStorage.getItem('accessToken')!=null) {
+        if (localStorage.getItem('accessToken') != null) {
             Router.push('/contest');
         }
     }
@@ -52,13 +53,13 @@ export default class login extends Component {
                     Router.push("/contest");
                 }
                 else
-                    this.setState({alert: true});
+                    this.setState({ alert: true });
             })
             .catch(err => {
-                if(err.response == null) {
-                    this.setState({alertMessage: "Could not connect with the server",alert: true});
+                if (err.response == null) {
+                    this.setState({ alertMessage: "Could not connect with the server", alert: true });
                 } else {
-                    this.setState({alertMessage: err.response.data.err,alert: true});
+                    this.setState({ alertMessage: err.response.data.err, alert: true });
                 }
             });
 
@@ -96,47 +97,120 @@ export default class login extends Component {
 
         return (
             <Layout>
-                <div>
-                    <Jumbotron fluid>
-                        <Container fluid>
-                        <div className="animate-top">
-                            <div className="col-md-4 offset-md-4 login-container px-5">
-                                <GoogleLogin
-                                    clientId="960527555483-09f7mgtkag4eva0n62dl6j6051fp9079.apps.googleusercontent.com"
-                                    buttonText="Login with Google"
-                                    onSuccess={responseGoogle}
-                                    onFailure={responseGoogle} >
-                                </GoogleLogin>
-                                <hr className="my-4"></hr>
-                                <form onSubmit={this.onSubmit}>
-                                    {this.state.alert && <Alert color="info">
-                                        {this.state.alertMessage}
-                                    </Alert>}
-                                    <fieldset>
-                                        <div className="form-group">
-                                            <label htmlFor="exampleInputEmail1">Email address</label>
-                                            <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" value={this.state.email} onChange={this.onChangeEmail} required />
-                                            <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+                <div className="bg-gradient-to-r from-gray-900 to-indigo-500 ...">
+                    <div className="container mx-auto px-4 h-full">
+                        <div className="flex content-center items-center justify-center h-full">
+                            <div className="w-full lg:w-4/12 px-4 py-14">
+                                <div className="relative flex flex-col min-w-0 break-words w-full mb-4 shadow-lg rounded-lg bg-gray-200 border-0">
+                                    <div className="rounded-lg mb-0 px-4 py-6">
+                                        <div className="text-center mb-3">
+                                            <h6 className="text-gray-600 text-sm font-bold">
+                                                Sign in with
+                                            </h6>
                                         </div>
-                                        <div className="form-group">
-                                            <label htmlFor="exampleInputPassword1">Password</label>
-                                            <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" value={this.state.password}
-                                                onChange={this.onChangePassword} required />
+                                        <div className="btn-wrapper text-center">
+
+                                            <GoogleLogin
+                                                clientId="960527555483-09f7mgtkag4eva0n62dl6j6051fp9079.apps.googleusercontent.com"
+                                                buttonText="Google"
+                                                onSuccess={responseGoogle}
+                                                onFailure={responseGoogle} >
+                                            </GoogleLogin>
                                         </div>
-                                        <div className="form-group">
-                                            <Button variant="success" type="submit">Login</Button>
+                                    </div>
+                                    <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
+                                        <div className="text-gray-500 text-center mb-1 font-bold">
+                                            <small>Or sign in with credentials</small>
                                         </div>
-                                        <div className="cust-flex">
-                                            <Link href="/signup"><a className="text-primary">Are you a new user?</a></Link>
-                                            <Link href="/forgotPassword"><a className="text-primary">Forgot Password?</a></Link>
+                                        <form>
+                                            <div className="relative w-full mb-3">
+                                                <label
+                                                    className="block uppercase text-gray-700 text-xs font-bold mb-2"
+                                                    htmlFor="grid-password"
+                                                >
+                                                    Email
+                                                </label>
+                                                <input
+                                                    type="email"
+                                                    className="border-0 px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
+                                                    placeholder="Email"
+                                                    style={{ transition: "all .15s ease" }}
+                                                    value={this.state.email}
+                                                    onChange={this.onChangeEmail} required
+                                                />
+                                            </div>
+
+                                            <div className="relative w-full mb-3">
+                                                <label
+                                                    className="block uppercase text-gray-700 text-xs font-bold mb-2"
+                                                    htmlFor="grid-password"
+                                                >
+                                                    Password
+                                                </label>
+                                                <input
+                                                    type="password"
+                                                    className="border-0 px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
+                                                    placeholder="Password"
+                                                    style={{ transition: "all .15s ease" }}
+                                                    value={this.state.password}
+                                                    onChange={this.onChangePassword} required
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="inline-flex items-center cursor-pointer">
+                                                    <input
+                                                        id="customCheckLogin"
+                                                        type="checkbox"
+                                                        className="form-checkbox border-0 rounded text-gray-800 ml-1 w-3 h-3"
+                                                        style={{ transition: "all .15s ease" }}
+                                                       
+                                                    />
+                                                    <span className="ml-2 text-sm font-semibold text-gray-700">
+                                                        Remember me
+                                                    </span>
+                                                </label>
+                                            </div>
+
+                                            <div className="text-center mt-3">
+                                                <button
+                                                    className="bg-gray-900 text-white active:bg-gray-700 text-sm font-bold uppercase px-2 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full"
+                                                    type="button"
+                                                    style={{ transition: "all .15s ease" }}
+                                                >
+                                                    Sign In
+                                                </button>
+                                            </div>
+                                        </form>
+                                        <div className="flex flex-wrap mt-2">
+                                            <div className="w-1/2">
+                                                <a
+                                                    href="#pablo"
+                                                    onClick={e => e.preventDefault()}
+                                                    className="text-gray-900 hover:text-blue-600"
+                                                >
+                                                    <small>Forgot password?</small>
+                                                </a>
+                                            </div>
+
+                                            <div className="w-1/2 text-right">
+                                                <Link href="/signup">
+                                                    <a
+
+                                                        className="text-gray-900 hover:text-blue-600"
+                                                    >
+                                                        <small>Create new account</small>
+                                                    </a>
+                                                </Link>
+                                            </div>
                                         </div>
-                                    </fieldset>
-                                </form>
+                                    </div>
+                                </div>
+
                             </div>
-                            </div>
-                        </Container>
-                    </Jumbotron>
+                        </div>
+                    </div>
                 </div>
+         
             </Layout>
         )
     }
